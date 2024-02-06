@@ -25,40 +25,40 @@ const baseUrl = 'http://localhost:8000';
 const adminUrl = `${baseUrl}/admin`;
 fetchData(adminUrl, 'GET')
     .then(response => {
-        console.log('Connected to admin:', response);
+        console.log('Connecté à la page d\'admin', response);
     })
     .catch(error => {
-        console.error('Failed to connect to admin:', error);
+        console.error('Impossible de se connecter à la page d\'admin:', error);
     });
 
 const addAlbumUrl = `${baseUrl}/albums`;
 const albumData = { title: 'New Album' };
 fetchData(addAlbumUrl, 'POST', albumData)
     .then(response => {
-        console.log('Album added:', response);
+        console.log('Album ajouté:', response);
     })
     .catch(error => {
-        console.error('Failed to add album:', error);
+        console.error('Impossible d\'ajouté un nouvel album:', error);
     });
 
 const albumId = 1;
 const updateAlbumUrl = `${baseUrl}/albums/${albumId}`;
-const updatedAlbumData = { title: 'Updated Album' };
+const updatedAlbumData = { title: 'Mise à jour de l\'album' };
 fetchData(updateAlbumUrl, 'PUT', updatedAlbumData)
     .then(response => {
-        console.log('Album updated:', response);
+        console.log('Album mis à jour:', response);
     })
     .catch(error => {
-        console.error('Failed to update album:', error);
+        console.error('Echec de la mise à jour de l\'album:', error);
     });
 
 const deleteAlbumUrl = `${baseUrl}/albums/${albumId}`;
 fetchData(deleteAlbumUrl, 'DELETE')
     .then(response => {
-        console.log('Album deleted:', response);
+        console.log('Album supprimé:', response);
     })
     .catch(error => {
-        console.error('Failed to delete album:', error);
+        console.error('Impossible de supprimer l\'album:', error);
     });
 
 const addImagesUrl = `${baseUrl}/images`;
@@ -66,20 +66,19 @@ const imageUrls = ['image1.jpg', 'image2.jpg'];
 const imageData = { albumId: albumId, urls: imageUrls };
 fetchData(addImagesUrl, 'POST', imageData)
     .then(response => {
-        console.log('Images added:', response);
+        console.log('Image rajoutée:', response);
     })
     .catch(error => {
-        console.error('Failed to add images:', error);
+        console.error('Impossible d\'ajouter les images:', error);
     });
 
-// Remove images
 const removeImagesUrl = `${baseUrl}/images`;
-const imageIds = [1, 2]; // IDs of the images to remove
+const imageIds = [1, 2];
 const removeImageData = { albumId: albumId, imageIds: imageIds };
 fetchData(removeImagesUrl, 'DELETE', removeImageData)
     .then(response => {
-        console.log('Images removed:', response);
+        console.log('Image supprimée:', response);
     })
     .catch(error => {
-        console.error('Failed to remove images:', error);
+        console.error('Impossible de supprimer les images:', error);
     });
