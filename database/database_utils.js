@@ -15,7 +15,7 @@ const insertAdmin = async (name, password) => {
 
     if (!passwordPolicyRegex.test(password)) {
         throw new Error('Password is insecure');
-    }
+    }   
 
     const hashedPassword = await bcrypt.hash(password, 10);
     db.run(`
