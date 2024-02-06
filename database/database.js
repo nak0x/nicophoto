@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
-const db = new sqlite3.Database('./nicophoto.db', (err) => {
+const Database = new sqlite3.Database('./nicophoto.db', (err) => {
     if (err) {
         console.error(err.message);
     } else {
@@ -8,4 +8,4 @@ const db = new sqlite3.Database('./nicophoto.db', (err) => {
     }
 });
 
-module.exports = db;
+module.exports = Database;
