@@ -1,0 +1,19 @@
+{
+  "name": "nicophoto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nak0x/nicophoto.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nak0x/nicophoto/issues"
+  },
+  "homepage": "https://github.com/nak0x/nicophoto#readme"
+}
