@@ -11,7 +11,9 @@ db.run(`
 `);
 
 const insertAdmin = async (name, password) => {
-    if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password) || !/[!@#$%^&*]/.test(password)) {
+    const passwordPolicyRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+
+    if (!passwordPolicyRegex.test(password)) {
         throw new Error('Password is insecure');
     }
 
