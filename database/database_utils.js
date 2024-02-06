@@ -2,6 +2,7 @@ const db = require('./database.js');
 
 const bcrypt = require('bcrypt');
 
+export function initTables(){
 db.run(`
     CREATE TABLE IF NOT EXISTS admins (
         login_id VARCHAR(255) PRIMARY KEY,
@@ -27,6 +28,7 @@ CREATE TABLE IF NOT EXISTS image (
     album_id INTEGER NOT NULL FOREIGN KEY REFERENCES album(id)
 );
 `)
+}
 
 const insertAdmin = async (name, password) => {
     const passwordPolicyRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
