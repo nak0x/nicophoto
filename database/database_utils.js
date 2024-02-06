@@ -23,5 +23,3 @@ const insertAdmin = async (name, password) => {
         VALUES (?, ?)
     `, [name, hashedPassword]);
 };
-
-insertAdmin('John Doe', 'password123*4A');
