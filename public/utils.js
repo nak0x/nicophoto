@@ -1,7 +1,7 @@
 async function fetchData(url, method, data) {
     try {
         const response = await fetch(url, {
-            method: method,
+            method,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -12,11 +12,9 @@ async function fetchData(url, method, data) {
             throw new Error('Request failed');
         }
 
-        const responseData = await response.json();
-        return responseData;
+        return await response.json();
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Erreur:', error.message);
         throw error;
     }
 }
-
