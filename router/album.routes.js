@@ -11,4 +11,4 @@ AlbumRouter.route("/album/:id")
   .get(checkUser, albumController.getAlbum)
   .patch(checkAdmin, albumController.updateAlbum);
 
-module.export = AlbumRouter;
+module.exports = AlbumRouter;

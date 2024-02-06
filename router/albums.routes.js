@@ -6,4 +6,4 @@ const albumsController = require("../controllers/albums.controller");
 
 AlbumsRouter.route("/albums").get(checkAdmin, albumsController.getAlbums);
 
-module.export = AlbumsRouter;
+module.exports = AlbumsRouter;
