@@ -4,11 +4,12 @@ const Router = require("express").Router();
 
 const adminRoutes = require("./admin.routes");
 const imageRoutes = require("./images.routes");
-const albumRoutes = require("./albums.routes");
+const albumRoutes = require("./album.routes");
+const albumsRoutes = require("./albums.routes");
 const authRoutes = require("./auth.routes");
 
 // Routing
 
-Router.use('/auth', authRoutes);
+Router.use("/auth", authRoutes);
 
 module.exports = Router;
