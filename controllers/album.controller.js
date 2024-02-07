@@ -1,14 +1,10 @@
 const Joi = require("joi");
-
 const slugify = require("slugify");
-
 const Database = require("../database/database");
 
 const albumSchemaPost = Joi.object({
   title: Joi.string().required(),
-
   desc: Joi.string().required(),
-
   pass: Joi.string()
     .required()
     .pattern(
@@ -16,27 +12,21 @@ const albumSchemaPost = Joi.object({
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
       )
     ),
-  // 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character
-
   date: Joi.date().required(),
-
   uri: Joi.string().allow(null),
 });
 
 const albumSchemaPatch = Joi.object({
-  title: Joi.string(),
-
-  desc: Joi.string(),
-
-  pass: Joi.string().pattern(
-    new RegExp(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
+  title: Joi.string().allow(null),
+  desc: Joi.string().allow(null),
+  pass: Joi.string()
+    .pattern(
+      new RegExp(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
+      )
     )
-  ),
-  // 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character
-
-  date: Joi.date(),
-
+    .allow(null),
+  date: Joi.date().allow(null),
   uri: Joi.string().allow(null),
 });
 
@@ -78,10 +68,13 @@ const createAlbum = async (req, res, next) => {
 };
 
 const getAlbum = async (req, res, next) => {
+  // implement isAdmin in middleware to req.isAdmin
   try {
-    const result = Database.run("SELECT * FROM album WHERE id = ?", [
-      req.params.id,
-    ]);
+    const selectValues = req.isAdmin ? "*" : "id, title, desc, date, uri";
+    const result = Database.run(
+      `SELECT ${selectValues} FROM album WHERE id = ?`,
+      [req.params.id]
+    );
 
     if (result.error) {
       throw new Error(result.error);
