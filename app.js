@@ -23,7 +23,9 @@ app.use(express.static("public"));
 app.use("*", (req, res)=>{
   res.status(404).sendFile("/404.html", {root: path.join(__dirname, 'public')});
 })
+app.use(express.static("/public"));
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`); 
+    console.log(`http://localhost:${port}`);
 });
