@@ -1,36 +1,13 @@
-const Joi = require("joi");
 const slugify = require("slugify");
 const Database = require("../database/database");
+const { v4: uuidv4 } = require("uuid");
 
-const albumSchemaPost = Joi.object({
-  title: Joi.string().required(),
-  desc: Joi.string().required(),
-  pass: Joi.string()
-    .required()
-    .pattern(
-      new RegExp(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
-      )
-    ),
-  date: Joi.date().required(),
-  uri: Joi.string().allow(null),
-});
+const {
+  albumSchemaPost,
+  albumSchemaPatch,
+} = require("../validators/album.validator");
 
-const albumSchemaPatch = Joi.object({
-  title: Joi.string().allow(null),
-  desc: Joi.string().allow(null),
-  pass: Joi.string()
-    .pattern(
-      new RegExp(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
-      )
-    )
-    .allow(null),
-  date: Joi.date().allow(null),
-  uri: Joi.string().allow(null),
-});
-
-const createAlbum = async (req, res, next) => {
+exports.createAlbum = async (req, res, next) => {
   const body = req.body;
 
   try {
@@ -40,24 +17,29 @@ const createAlbum = async (req, res, next) => {
       throw new Error(response.error);
     }
 
-    const result = Database.run(
-      "INSERT INTO album (title, desc, pass, date, uri) VALUES (?, ?, ?, ?, ?)",
-      [
-        body.title,
-        body.desc,
-        body.pass,
-        body.date,
-        body.uri ?? slugify(body.title, { lower: true }),
-      ]
-    );
+    const query =
+      "INSERT INTO album (uid, title, description, pass, date, url) VALUES (?, ?, ?, ?, ?, ?)";
+    const params = [
+      uuidv4(),
+      body.title,
+      body.description,
+      body.pass,
+      body.date,
+      body.url ?? slugify(body.title, { lower: true }),
+    ];
 
-    if (result.error) {
-      throw new Error(result.error);
-    }
+    await new Promise((resolve, reject) => {
+      Database.run(query, params, (err) => {
+        if (err) {
+          reject(err);
+        }
+        resolve();
+      });
+    });
 
     res.send({
       success: true,
-      data: result.data,
+      data: {},
     });
   } catch (error) {
     res.send({
@@ -67,22 +49,31 @@ const createAlbum = async (req, res, next) => {
   }
 };
 
-const getAlbum = async (req, res, next) => {
-  // implement isAdmin in middleware to req.isAdmin
+exports.getAlbum = async (req, res, next) => {
   try {
-    const selectValues = req.isAdmin ? "*" : "id, title, desc, date, uri";
-    const result = Database.run(
-      `SELECT ${selectValues} FROM album WHERE id = ?`,
-      [req.params.id]
-    );
+    const selectValues = req.user.admin
+      ? "*"
+      : "uid, title, description, date, url";
 
-    if (result.error) {
-      throw new Error(result.error);
+    const query = `SELECT ${selectValues} FROM album WHERE uid = ?`;
+    const params = [req.params.album_uid];
+
+    const rows = await new Promise((resolve, reject) => {
+      Database.get(query, params, (err, rows) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(rows);
+      });
+    });
+
+    if (!rows) {
+      throw new Error("No album found");
     }
 
     res.send({
       success: true,
-      data: result.data,
+      data: rows,
     });
   } catch (error) {
     res.send({
@@ -92,7 +83,8 @@ const getAlbum = async (req, res, next) => {
   }
 };
 
-const updateAlbum = async (req, res, next) => {
+// TODO
+exports.updateAlbum = async (req, res, next) => {
   const body = req.body;
 
   try {
@@ -102,27 +94,29 @@ const updateAlbum = async (req, res, next) => {
       throw new Error(response.error);
     }
 
-    // TODO : update only the fields that are not null
+    for (let [key, value] of Object.entries(body)) {
+      if (value) {
+        if (key == "url") {
+          value = slugify(value, { lower: true });
+        }
 
-    // const result = Database.run(
-    //   "UPDATE album SET title = ?, desc = ?, pass = ?, date = ?, uri = ? WHERE id = ?",
-    //   [
-    //     body.title,
-    //     body.desc,
-    //     body.pass,
-    //     body.date,
-    //     body.uri ?? slugify(body.title, { lower: true }),
-    //     req.params.id,
-    //   ]
-    // );
+        const query = `UPDATE album SET ${key} = ? WHERE uid = ?`;
+        const params = [value, req.params.album_uid];
 
-    if (result.error) {
-      throw new Error(result.error);
+        await new Promise((resolve, reject) => {
+          Database.run(query, params, (err) => {
+            if (err) {
+              reject(err);
+            }
+            resolve();
+          });
+        });
+      }
     }
 
     res.send({
       success: true,
-      data: result.data,
+      data: {},
     });
   } catch (error) {
     res.send({
@@ -132,4 +126,28 @@ const updateAlbum = async (req, res, next) => {
   }
 };
 
-module.exports = { createAlbum, getAlbum, updateAlbum };
+exports.deleteAlbum = async (req, res, next) => {
+  try {
+    const query = `DELETE FROM album WHERE uid = ?`;
+    const params = [req.params.album_uid];
+
+    await new Promise((resolve, reject) => {
+      Database.run(query, params, (err) => {
+        if (err) {
+          reject(err);
+        }
+        resolve();
+      });
+    });
+
+    res.send({
+      success: true,
+      data: {},
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      error: { code: 400, message: error },
+    });
+  }
+};
