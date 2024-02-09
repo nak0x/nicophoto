@@ -1,6 +1,6 @@
 const Database = require("../database/database");
 
-const getAlbums = async (req, res, next) => {
+exports.getAlbums = async (req, res, next) => {
   try {
     const albums = Database.run("SELECT * FROM album");
 
@@ -19,5 +19,3 @@ const getAlbums = async (req, res, next) => {
     });
   }
 };
-
-module.exports = { getAlbums };
