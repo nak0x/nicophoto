@@ -2,34 +2,30 @@
 // Cf:  Auth section api doc
 
 const authController = require("../controllers/auth.controller.js");
-const bcrypt = require('bcrypt');
-const {}
 
-// ONLY TESTING DO NOT PUSH TO PROD !!!!!
-const getAlbumCreds = async (id) => {
-  if(id == "test_album_id"){
-    return {
-      id: "test_album_id", 
-      pass: bcrypt.hash("superPass", await bcrypt.genSalt(16))
-    }
-  }
-  else{return {}}
-}
-
-// Joi data validation schema
 
 exports.authToken = async (req, res, next) => {
   
-  // Parse the body
-
-
+  // Get the authorisation from the headers
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
   // Check if the token is a formal bearer
-  const validation = await getAlbumCreds()
+  if(!token) return res.sendStatus(403).json({
+    success: false,
+    error: {
+      code: 403,
+      error: "No token provided"
+    }
+  });
 
-  // Check if the token is valid
+  // Verfify the token
+  try {
+    let decodedData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
 
-  // Return the validation or not
+  } catch (error) {
+    
+  }
 
 }
 
