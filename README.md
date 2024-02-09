@@ -17,11 +17,19 @@
 
 </aside>
 
-### Output
+### Input
+
+Request :
+
+```jsx
+fetchData(`/albums`, "GET");
+```
+
+### Output (data)
 
 | Name | Type | Description |
 | --- | --- | --- |
-| album_uids | array | An array that contains all albums uids |
+| album_uids  | array | An array that contains all albums uids |
 
 ```json
 {
@@ -55,14 +63,16 @@ Body :
 | date | date | true |  | The album shooting date |
 | url | string | false | The slug format of the album title | The url to access to the album content (will be converted to slug) |
 
-```json
-{
+Request :
+
+```jsx
+fetchData(`/album`, "POST", {
   "title": "This is my album title",
   "description": "This is my short album description",
   "password": "A$ecuredP4ssword",
   "date": "2024-06-02",
   "url": "my-first-client"
-}
+});
 ```
 
 ---
@@ -70,7 +80,7 @@ Body :
 ## `GET` `/album/:album_uid`
 
 <aside>
-🛡️ Retrieve album infos by id
+🛡️ Retrieve album infos by uid
 
 </aside>
 
@@ -82,9 +92,11 @@ Query :
 | --- | --- | --- |
 | :album_uid | string | The uid of the target album |
 
+Request :
+
 ```jsx
-const albumId = "487fbfc2-a470-4800-8630-052e71588ddc";
-fetchData(`/album/${albumId}`, "GET");
+const albumUid = "487fbfc2-a470-4800-8630-052e71588ddc";
+fetchData(`/album/${albumUid}`, "GET");
 ```
 
 ### Output
@@ -107,10 +119,10 @@ fetchData(`/album/${albumId}`, "GET");
 
 ---
 
-## `GET` `/album/:album_uid`
+## `GET` `/album/:album_url`
 
 <aside>
-💻 Retrieve album infos by id
+💻 Retrieve album infos by url
 
 </aside>
 
@@ -120,11 +132,13 @@ Query :
 
 | Name | Type | Description |
 | --- | --- | --- |
-| :album_uid | string | The uid of the target album |
+| :album_url | string | The url of the target album |
+
+Request :
 
 ```jsx
-const albumId = "487fbfc2-a470-4800-8630-052e71588ddc";
-fetchData(`/album/${albumId}`, "GET");
+const albumUrl = "otacos-footage";
+fetchData(`/album/${albumUrl}`, "GET");
 ```
 
 ### Output
@@ -145,10 +159,98 @@ fetchData(`/album/${albumId}`, "GET");
 
 ---
 
+## `GET` `/album/:album_uid/images`
+
+<aside>
+🛡️ Retrieve image uids from album by uid
+
+</aside>
+
+### Input
+
+Query :
+
+| Name | Type | Description |
+| --- | --- | --- |
+| :album_uid | string | The uid of the target album |
+
+Request :
+
+```jsx
+const albumUid = "487fbfc2-a470-4800-8630-052e71588ddc";
+fetchData(`/album/${albumUid}/images`, "GET");
+```
+
+### Output
+
+| Name | Type | Description |
+| --- | --- | --- |
+| image_uids | array | An array of image uids from the target album |
+
+```json
+{
+	"image_uids": [
+		"eec40483-84bf-4b61-acc1-2687977e4018",
+	  "59a79092-21ba-4e92-96c2-64abd3cafe44",
+	  "d82ac93c-efcb-46c9-972f-f73b2ba16757",
+	  "bade4a94-f312-42ca-94e9-5bae03c10b2b",
+	  "66439a6a-a2e9-4d06-90a6-4202ff5550c0",
+	  "928cdcd3-e27d-4547-a7bd-748225ffc440",
+		...
+  ]
+}
+```
+
+---
+
+## `GET` `/album/:album_url/images`
+
+<aside>
+💻 Retrieve image uids from album by url
+
+</aside>
+
+### Input
+
+Query :
+
+| Name | Type | Description |
+| --- | --- | --- |
+| :album_url | string | The url of the target album |
+
+Request :
+
+```jsx
+const albumUrl = "otacos-footage";
+fetchData(`/album/${albumUrl}/images`, "GET");
+```
+
+### Output
+
+| Name | Type | Description |
+| --- | --- | --- |
+| image_uids | array | An array of image uids from the target album |
+
+```json
+{
+	"image_uids": [
+		"eec40483-84bf-4b61-acc1-2687977e4018",
+	  "59a79092-21ba-4e92-96c2-64abd3cafe44",
+	  "d82ac93c-efcb-46c9-972f-f73b2ba16757",
+	  "bade4a94-f312-42ca-94e9-5bae03c10b2b",
+	  "66439a6a-a2e9-4d06-90a6-4202ff5550c0",
+	  "928cdcd3-e27d-4547-a7bd-748225ffc440",
+		...
+  ]
+}
+```
+
+---
+
 ## `PATCH` `/album/:album_uid`
 
 <aside>
-🛡️ Update album infos by id
+🛡️ Update album infos by uid
 
 </aside>
 
@@ -170,9 +272,11 @@ Body :
 | date | date | false | The album shooting date |
 | url | string | false | The url to access to the album content (will be converted to slug) |
 
+Request :
+
 ```jsx
-const albumId = "487fbfc2-a470-4800-8630-052e71588ddc";
-fetchData(`/album/${albumId}`, "PATCH", {
+const albumUid = "487fbfc2-a470-4800-8630-052e71588ddc";
+fetchData(`/album/${albumUid}`, "PATCH", {
   title: "My new album title",
   url: "my-new-custom-album-url",
 });
@@ -183,7 +287,7 @@ fetchData(`/album/${albumId}`, "PATCH", {
 ## `DELETE` `/album/:album_uid`
 
 <aside>
-🛡️ Update album infos by id
+🛡️ Update album infos by uid
 
 </aside>
 
@@ -195,17 +299,19 @@ Query :
 | --- | --- | --- |
 | :album_uid | string | The uid of the target album |
 
+Request :
+
 ```jsx
-const albumId = "487fbfc2-a470-4800-8630-052e71588ddc";
-fetchData(`/album/${albumId}`, "DELETE");
+const albumUid = "487fbfc2-a470-4800-8630-052e71588ddc";
+fetchData(`/album/${albumUid}`, "DELETE");
 ```
 
 ---
 
-## `GET` `/album/:album_uid/image/:image_uid`
+## `GET` `/album/:album_url/image/:image_uid`
 
 <aside>
-💻 Retrieve album infos by id
+💻 Retrieve image data by uid
 
 </aside>
 
@@ -215,20 +321,22 @@ Query :
 
 | Name | Type | Description |
 | --- | --- | --- |
-| :album_uid | string | The uid of the target album |
+| :album_url | string | The url of the target album |
 | :image_uid | string | The uid of the target image |
 
+Request :
+
 ```jsx
-const albumId = "487fbfc2-a470-4800-8630-052e71588ddc";
+const albumUrl = "otacos-footage";
 const imageId = "40aa3586-eec3-41e1-aad3-b8068193e032";
-fetchData(`/album/${albumId}/image/${imageId}`, "GET");
+fetchData(`/album/${albumUrl}/image/${imageId}`, "GET");
 ```
 
 ### Output
 
 | Name | Type | Description |
 | --- | --- | --- |
-| name | string | null | The name of the target image |
+| name | string / null | The name of the target image |
 | preview | string (Base64) | The preview Base64 encoded image of the target image |
 | pinned  | bool | If the target image is pinned or not |
 | uid  | string | The uid of the target image |
@@ -246,7 +354,7 @@ fetchData(`/album/${albumId}/image/${imageId}`, "GET");
 ## `POST` `/album/:album_uid/image/`
 
 <aside>
-🛡️ Create a new image entry
+🛡️ Create a new image entry in album
 
 </aside>
 
@@ -262,12 +370,16 @@ Body :
 
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
+| image_file | file | true |  | The image file |
 | name | string | false |  | The name of the image |
 | pinned | bool | false | false | If the image is pinned in its album |
 
+Request :
+
 ```jsx
-const albumId = "487fbfc2-a470-4800-8630-052e71588ddc";
-fetchData(`/album/${albumId}/image`, "POST", {
+const albumUid = "487fbfc2-a470-4800-8630-052e71588ddc";
+fetchData(`/album/${albumUid}/image`, "POST", {
+	file: "à voir comment on fait..."
   name: "A beautiful mountain",
   pinned: true,
 });
@@ -278,7 +390,7 @@ fetchData(`/album/${albumId}/image`, "POST", {
 ## `PATCH` `/album/:album_uid/image/:image_uid`
 
 <aside>
-🛡️ Update image info by id
+🛡️ Update image info by uid
 
 </aside>
 
@@ -298,10 +410,12 @@ Body :
 | name | string | false | The name of the image |
 | pinned | bool | false | If the image is pinned in the album |
 
+Request :
+
 ```jsx
-const albumId = "487fbfc2-a470-4800-8630-052e71588ddc";
-const imageId = "40aa3586-eec3-41e1-aad3-b8068193e032";
-fetchData(`/album/${albumId}/image/${imageId}`, "PATCH", {
+const albumUid = "487fbfc2-a470-4800-8630-052e71588ddc";
+const imageUid = "40aa3586-eec3-41e1-aad3-b8068193e032";
+fetchData(`/album/${albumUid}/image/${imageUid}`, "PATCH", {
   name: "An other beautiful mountain",
   pinned: false,
 });
@@ -324,6 +438,8 @@ Query :
 | --- | --- | --- |
 | :album_uid | string | The uid of the target album |
 | :image_uid | string | The uid of the target image |
+
+Request :
 
 ```jsx
 const albumId = "487fbfc2-a470-4800-8630-052e71588ddc";
@@ -353,6 +469,8 @@ Body :
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | image_uids | array | true | An array of image uids to download |
+
+Request :
 
 ```jsx
 const albumId = "487fbfc2-a470-4800-8630-052e71588ddc";
