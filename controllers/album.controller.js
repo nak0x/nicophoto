@@ -25,7 +25,8 @@ exports.createAlbum = async (req, res, next) => {
       body.description,
       body.pass,
       body.date,
-      body.url ?? slugify(body.title, { lower: true }),
+      slugify(body.url, { lower: true }) ??
+        slugify(body.title, { lower: true }),
     ];
 
     await new Promise((resolve, reject) => {
@@ -51,6 +52,8 @@ exports.createAlbum = async (req, res, next) => {
 
 exports.getAlbum = async (req, res, next) => {
   try {
+    req.user = {};
+    req.user.admin = true;
     const selectValues = req.user.admin
       ? "*"
       : "uid, title, description, date, url";

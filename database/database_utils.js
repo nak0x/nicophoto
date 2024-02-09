@@ -16,7 +16,8 @@ exports.initTables = () => {
         url VARCHAR(255),
         pass VARCHAR(255),
         description TEXT,
-        date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE (url)
     );
     `);
   db.run(`
@@ -91,25 +92,24 @@ exports.getCredentials = async (id) => {
   }
 };
 
-
 /**
  * Get the credentials of an album by its ID
  * @param {Number} id - The ID of the album
  * @returns {Object} - The credentials object containing the ID and password of the album or an empty object if the album id doesn't exist.
  */
 exports.getAdminCredentials = async (id) => {
-    try {
-        const admin = await db.get(`SELECT * FROM admins WHERE login_id = ?`, [id]);
-        if (admin) {
-            return {
-                id: admin.id,
-                pass: admin.pass
-            };
-        } else {
-            return {};
-        }
-    } catch (err) {
-        console.error(err);
-        return {};
+  try {
+    const admin = await db.get(`SELECT * FROM admins WHERE login_id = ?`, [id]);
+    if (admin) {
+      return {
+        id: admin.id,
+        pass: admin.pass,
+      };
+    } else {
+      return {};
     }
-}
+  } catch (err) {
+    console.error(err);
+    return {};
+  }
+};
