@@ -18,12 +18,12 @@ exports.createAlbum = async (req, res, next) => {
     }
 
     const query =
-      "INSERT INTO album (uid, title, description, pass, date, url) VALUES (?, ?, ?, ?, ?, ?)";
+      "INSERT INTO album (uid, title, description, password, date, url) VALUES (?, ?, ?, ?, ?, ?)";
     const params = [
       uuidv4(),
       body.title,
       body.description,
-      body.pass,
+      body.password,
       body.date,
       slugify(body.url, { lower: true }) ??
         slugify(body.title, { lower: true }),
