@@ -2,7 +2,7 @@ const db = require('./database.js');
 
 const bcrypt = require('bcrypt');
 
-export function initTables(){
+exports.initTables = ()=>{
 db.run(`
     CREATE TABLE IF NOT EXISTS admins (
         login_id VARCHAR(255) PRIMARY KEY,
@@ -25,21 +25,64 @@ CREATE TABLE IF NOT EXISTS image (
     name VARCHAR(255) DEFAULT NULL,
     preview BLOB,
     pinned BOOLEAN DEFAULT FALSE,
-    album_id INTEGER NOT NULL FOREIGN KEY REFERENCES album(id)
+    album_id INTEGER NOT NULL,
+    FOREIGN KEY(album_id) REFERENCES album(id)
 );
 `)
 }
 
-const insertAdmin = async (name, password) => {
-    const passwordPolicyRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+exports.insertAdmin = async (login_id, password) => {
 
-    if (!passwordPolicyRegex.test(password)) {
-        throw new Error('Password is insecure');
+    const passReg = new RegExp(process.env.PASS_POLICY)
+
+    if (!passReg.test(password)) {
+        console.error('Password is insecure');
     }   
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    db.run(`
-        INSERT INTO admins (login_id, pass)
-        VALUES (?, ?)
-    `, [name, hashedPassword]);
-};
+    try {
+        db.run(`
+            INSERT OR IGNORE INTO admins (login_id, pass) 
+            VALUES (?, ?)
+        `, [login_id, hashedPassword]);
+    }catch (error) {
+        console.error(error);
+    }
+}
+    
+/**
+ * Get all datas from albums from the uid
+ * @param {String} uid Get the uid of the album
+ * @returns {Object} The album object
+ */
+exports.selectAlbumWithPhotos = async (uid) => {
+    try {
+        const album = await db.get(`SELECT * FROM album WHERE uid = ?`, [uid]);
+        const photos = await db.all(`SELECT * FROM image WHERE album_id = ?`, [album.id]);
+        return { album, photos };
+    } catch (err) {
+        return {};
+    }
+}
+
+/**
+ * Get the credentials of an album by its ID
+ * @param {Number} id - The ID of the album
+ * @returns {Object} - The credentials object containing the ID and password of the album or an empty object if the album id doesn't exist.
+ */
+exports.getCredentials = async (id) => {
+    try {
+        const album = await db.get(`SELECT * FROM album WHERE id = ?`, [id]);
+        if (album) {
+            return {
+                id: album.id,
+                pass: album.pass
+            };
+        } else {
+            return {};
+        }
+    } catch (err) {
+        console.error(err);
+        return {};
+    }
+}
