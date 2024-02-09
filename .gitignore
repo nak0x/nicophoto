@@ -3,4 +3,4 @@ package-lock.json
 .vscode
 .idea
 .prettierrc
-*.db
+database/nicophoto.db
