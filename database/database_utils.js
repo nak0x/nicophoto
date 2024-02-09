@@ -11,10 +11,10 @@ exports.initTables = () => {
     `);
   db.run(`
     CREATE TABLE IF NOT EXISTS album (
-        uid TINYTEXT PRIMARY KEY,
+        uid TINYTEXT PRIMARY KEY NOT NULL,
         title VARCHAR(255),
         url VARCHAR(255),
-        pass VARCHAR(255),
+        password VARCHAR(255),
         description TEXT,
         date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE (url)
@@ -26,8 +26,8 @@ exports.initTables = () => {
         name VARCHAR(255) DEFAULT NULL,
         preview BLOB,
         pinned BOOLEAN DEFAULT FALSE,
-        album_id INTEGER NOT NULL,
-        FOREIGN KEY(album_id) REFERENCES album(id)
+        album_uid INTEGER NOT NULL,
+        FOREIGN KEY(album_uid) REFERENCES album(uid)
     );
     `);
 };
@@ -61,7 +61,7 @@ exports.insertAdmin = async (login_id, password) => {
 exports.selectAlbumWithPhotos = async (uid) => {
   try {
     const album = await db.get(`SELECT * FROM album WHERE uid = ?`, [uid]);
-    const photos = await db.all(`SELECT * FROM image WHERE album_id = ?`, [
+    const photos = await db.all(`SELECT * FROM image WHERE album_uid = ?`, [
       album.id,
     ]);
     return { album, photos };
