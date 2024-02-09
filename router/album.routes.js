@@ -1,6 +1,6 @@
 const AlbumRouter = require("express").Router();
 
-const { checkAdmin, checkUser } = require("../middlewares/auth.middleware");
+const { checkAdmin, checkUser } = require("../middlewares/auth.middleware.js");
 
 const albumController = require("../controllers/album.controller");
 
