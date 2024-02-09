@@ -4,7 +4,7 @@ const AuthRouter = require("express").Router();
 const authController = require("../controllers/auth.controller");
 
 AuthRouter.route("/")
-  .post("/", authController.auth)
+  .post(authController.auth)
 
 AuthRouter.route("/renew")
   .post(authController.authToken, authController.renewToken)
