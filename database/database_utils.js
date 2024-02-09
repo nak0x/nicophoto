@@ -43,3 +43,40 @@ const insertAdmin = async (name, password) => {
         VALUES (?, ?)
     `, [name, hashedPassword]);
 };
+
+/**
+ * Get all datas from albums from the uid
+ * @param {String} uid Get the uid of the album
+ * @returns {Object} The album object
+ */
+// export async function selectAlbumWithPhotos(uid) {
+//     try {
+//         const album = await db.get(`SELECT * FROM album WHERE uid = ?`, [uid]);
+//         const photos = await db.all(`SELECT * FROM image WHERE album_id = ?`, [album.id]);
+//         return { album, photos };
+//     } catch (err) {
+//         return {};
+//     }
+// }
+
+/**
+ * Get the credentials of an album by its ID
+ * @param {Number} id - The ID of the album
+ * @returns {Object} - The credentials object containing the ID and password of the album or an empty object if the album id doesn't exist.
+ */
+export const getCredentials = async (id) => {
+    try {
+        const album = await db.get(`SELECT * FROM album WHERE id = ?`, [id]);
+        if (album) {
+            return {
+                id: album.id,
+                pass: album.pass
+            };
+        } else {
+            return {};
+        }
+    } catch (err) {
+        console.error(err);
+        return {};
+    }
+}

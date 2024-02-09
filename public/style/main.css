@@ -1,0 +1,12 @@
+/* Custom CSS */
+.text-with-bg {
+    background-image: url('https://picsum.photos/200');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    margin: 20px;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+  
