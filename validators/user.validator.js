@@ -20,12 +20,20 @@ const userValidation = Joi.object({
     .required()
     .custom(async (encryptedPass, helper)=>{
       let credentials = await getCredentials(albumId);
-      
+      if(credentials == {}){
+        helper.error("any.invalid")
+        return helper.message('Wrong password')
+      }
+      if(encryptedPass == credentials.pass){
+        return credentials.pass
+      }
     })
-    
 })
 
 exports.validateUser = async (decodedJwt)=>{
-  let credentials = await getCredentials(albumId);
-  
+  const validation = await userValidation.validateAsync(decodedJwt);
+  if(validation.error){
+    return false
+  }
+  return true
 }
