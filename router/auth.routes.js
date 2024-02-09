@@ -9,4 +9,4 @@ AuthRouter.route("/")
 AuthRouter.route("/renew")
   .post(authController.authToken, authController.renewToken)
 
-module.export = AuthRouter;
+module.exports = AuthRouter;
