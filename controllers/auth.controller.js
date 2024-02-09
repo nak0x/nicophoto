@@ -3,3 +3,4 @@ const jwt = require("jsonwebtoken");
 const joi = require("joi");
 const { Database } = require("../database/database");
 
+exports.auth = ()=>{return}

@@ -36,3 +36,9 @@ exports.authAdminToken = async (req, res, next) => {
   // Return the result of the validation
 
 }
+
+exports.checkAdmin = ()=> {
+  return;
+}
+
+exports.checkUser = ()=>{return;}
