@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
-const fs = require("fs");
+const path = require("path")
 
+// const routeur = require("./router/index.routes");
 const { initTables, insertAdmin} = require("./database/database_utils");
 
 // Init db
@@ -17,10 +18,10 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static("public"));
 
-app.use("/api", routeur);
+// app.use("/api", routeur);
 
-app.use("*", async (req, res)=>{
-  res.status(404).sendFile(await fs.readFile("./public/404.html"));
+app.use("*", (req, res)=>{
+  res.status(404).sendFile("/404.html", {root: path.join(__dirname, 'public')});
 })
 
 app.listen(port, () => {
