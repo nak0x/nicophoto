@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const joi = require("joi");
 const { Database } = require("../database/database");
 
+exports.auth = ()=>{return}
 function getAdminById(id){
   try{
     const result = Database.run(`
@@ -12,8 +13,4 @@ function getAdminById(id){
   }catch(err){
     return {}
   }
-}
-
-export function auth(req,res,next){
-  
 }
