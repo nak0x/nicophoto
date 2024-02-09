@@ -1,4 +1,4 @@
-//  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
+ /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
 const jwt = require("jsonwebtoken");
 const joi = require("joi");
 const { Database } = require("../database/database");
@@ -13,4 +13,6 @@ function getAdminById(id){
   }
 }
 
-export function 
+export function auth(req,res,next){
+  
+}
