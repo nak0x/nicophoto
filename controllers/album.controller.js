@@ -1,36 +1,11 @@
-const Joi = require("joi");
 const slugify = require("slugify");
 const Database = require("../database/database");
+const {
+  albumSchemaPost,
+  albumSchemaPatch,
+} = require("../validators/album.validator");
 
-const albumSchemaPost = Joi.object({
-  title: Joi.string().required(),
-  desc: Joi.string().required(),
-  pass: Joi.string()
-    .required()
-    .pattern(
-      new RegExp(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
-      )
-    ),
-  date: Joi.date().required(),
-  uri: Joi.string().allow(null),
-});
-
-const albumSchemaPatch = Joi.object({
-  title: Joi.string().allow(null),
-  desc: Joi.string().allow(null),
-  pass: Joi.string()
-    .pattern(
-      new RegExp(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
-      )
-    )
-    .allow(null),
-  date: Joi.date().allow(null),
-  uri: Joi.string().allow(null),
-});
-
-const createAlbum = async (req, res, next) => {
+exports.createAlbum = async (req, res, next) => {
   const body = req.body;
 
   try {
@@ -67,13 +42,12 @@ const createAlbum = async (req, res, next) => {
   }
 };
 
-const getAlbum = async (req, res, next) => {
-  // implement isAdmin in middleware to req.isAdmin
+exports.getAlbum = async (req, res, next) => {
   try {
     const selectValues = req.isAdmin ? "*" : "id, title, desc, date, uri";
     const result = Database.run(
       `SELECT ${selectValues} FROM album WHERE id = ?`,
-      [req.params.id]
+      [req.params.uid]
     );
 
     if (result.error) {
@@ -92,7 +66,7 @@ const getAlbum = async (req, res, next) => {
   }
 };
 
-const updateAlbum = async (req, res, next) => {
+exports.updateAlbum = async (req, res, next) => {
   const body = req.body;
 
   try {
@@ -102,19 +76,21 @@ const updateAlbum = async (req, res, next) => {
       throw new Error(response.error);
     }
 
-    // TODO : update only the fields that are not null
+    for (const [key, value] of Object.entries(body)) {
+      if (value) {
+        if (key == "uri") {
+          value = slugify(value, { lower: true });
+        }
+        const result = Database.run(
+          `UPDATE album SET ${key} = ? WHERE id = ?`,
+          [value, req.params.uid]
+        );
 
-    // const result = Database.run(
-    //   "UPDATE album SET title = ?, desc = ?, pass = ?, date = ?, uri = ? WHERE id = ?",
-    //   [
-    //     body.title,
-    //     body.desc,
-    //     body.pass,
-    //     body.date,
-    //     body.uri ?? slugify(body.title, { lower: true }),
-    //     req.params.id,
-    //   ]
-    // );
+        if (result.error) {
+          throw new Error(result.error);
+        }
+      }
+    }
 
     if (result.error) {
       throw new Error(result.error);
@@ -122,7 +98,7 @@ const updateAlbum = async (req, res, next) => {
 
     res.send({
       success: true,
-      data: result.data,
+      data: {},
     });
   } catch (error) {
     res.send({
@@ -132,4 +108,24 @@ const updateAlbum = async (req, res, next) => {
   }
 };
 
-module.exports = { createAlbum, getAlbum, updateAlbum };
+exports.deleteAlbum = async (req, res, next) => {
+  try {
+    const result = Database.run("DELETE FROM album WHERE id = ?", [
+      req.params.uid,
+    ]);
+
+    if (result.error) {
+      throw new Error(result.error);
+    }
+
+    res.send({
+      success: true,
+      data: {},
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      error: { code: 400, message: error },
+    });
+  }
+};
