@@ -8,9 +8,10 @@ function getAdminById(id){
     const result = Database.run(`
       SELECT * FROM admins WHERE login_id = ?;
     `, [id]);
+    console.log(result);
   }catch(err){
     return {}
   }
 }
 
-export function 
+
