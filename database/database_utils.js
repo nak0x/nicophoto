@@ -85,8 +85,12 @@ exports.getCredentials = async (id) => {
     } else {
       return {};
     }
-<<<<<<< HEAD
-}
+  } catch (err) {
+    console.error(err);
+    return {};
+  }
+};
+
 
 /**
  * Get the credentials of an album by its ID
@@ -109,10 +113,3 @@ exports.getAdminCredentials = async (id) => {
         return {};
     }
 }
-=======
-  } catch (err) {
-    console.error(err);
-    return {};
-  }
-};
->>>>>>> origin/main
