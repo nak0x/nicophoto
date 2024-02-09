@@ -10,20 +10,14 @@ export authToken = async (req, res, next) => {
 
   // Check if the token is valid
 
-  // Go to the next middlewear if the auth is ok or return {
-  //  status: 403,
-  //  data: {},
-  //  error: {
-  //	code: 403,
-  //	message: Auth token as not being validate
-  // }
-
-
+  // Return the validation or not
 
 }
 
 export authAdminToken = async (req, res, next) => {
 
-  
+  // Check the validity of the token
+  //
+  // Return the result of the validation
 
 }
