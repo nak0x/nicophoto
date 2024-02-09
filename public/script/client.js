@@ -18,7 +18,6 @@ function closeImageModal() {
     modal.classList.add('hidden'); // Cache le modal
 }
 
-
 // Ajout d'options sur le modal
 
 document.getElementById('closeModal').addEventListener('click', function(event) {
@@ -63,8 +62,6 @@ document.getElementById('prevImage').addEventListener('click', function(event) {
     // Logique pour passer à l'image précédente
 });
 
-
-
 // Exemple de fonction pour naviguer vers l'image suivante
 document.getElementById('nextImage').addEventListener('click', function(event) {
     event.stopPropagation();
@@ -80,6 +77,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('prevImage').addEventListener('click', function(event) {
         event.stopPropagation();
         prevImage();
-    });
-    
+    });    
 });
