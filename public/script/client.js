@@ -35,7 +35,6 @@ async function fetchAndDisplayImages() {
 
 document.addEventListener('DOMContentLoaded', fetchAndDisplayImages);
 
-
 function addImageListeners() {
     const images = document.querySelectorAll('.modal-trigger');
     const modal = document.getElementById('imageModal');
