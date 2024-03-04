@@ -1,14 +1,17 @@
 const AlbumRouter = require("express").Router();
 
-const { checkAdmin, checkUser } = require("../middlewares/auth.middleware");
+const { authToken } = require("../middlewares/auth.middleware.js");
 
 const albumController = require("../controllers/album.controller");
 
-AlbumRouter.route("/album").post(checkAdmin, albumController.createAlbum);
+AlbumRouter.route("/").post(
+  /*authToken("admin"),*/ albumController.createAlbum
+);
 
-AlbumRouter.route("/album/:id")
-  .get(checkAdmin, albumController.getAlbum)
-  .get(checkUser, albumController.getAlbum)
-  .patch(checkAdmin, albumController.updateAlbum);
+AlbumRouter.route("/:album_uid")
+  .get(/*authToken("admin"),*/ albumController.getAlbum)
+  .get(/*authToken("user"),*/ albumController.getAlbum)
+  .patch(/*authToken("admin"),*/ albumController.updateAlbum)
+  .delete(/*authToken("admin"),*/ albumController.deleteAlbum);
 
 module.exports = AlbumRouter;

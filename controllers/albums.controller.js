@@ -1,16 +1,15 @@
 const Database = require("../database/database");
 
-const getAlbums = async (req, res, next) => {
+exports.getAlbums = async (req, res, next) => {
   try {
-    const albums = Database.run("SELECT * FROM album");
-
-    if (!albums) {
-      throw new Error("No albums found");
-    }
-
-    res.send({
-      success: true,
-      data: albums,
+    Database.all("SELECT uid FROM album", [], (err, rows) => {
+      if (err) {
+        throw new Error(err);
+      }
+      res.send({
+        success: true,
+        data: rows.map((obj) => obj.uid),
+      });
     });
   } catch (error) {
     res.send({
@@ -19,5 +18,3 @@ const getAlbums = async (req, res, next) => {
     });
   }
 };
-
-module.exports = { getAlbums };
