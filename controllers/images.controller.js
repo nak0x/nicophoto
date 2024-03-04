@@ -10,7 +10,6 @@ exports.getAllAlbumImages = async (req, res) => {
         if (err) {
           reject(err);
         }
-        console.log(rows);
         resolve(rows);
       });
     });
