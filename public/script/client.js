@@ -57,6 +57,12 @@ function addImageListeners() {
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
             closeImageModal();
+        } else if(event.key === 'ArrowLeft'){
+            console.log("left")
+            previousImage(event);
+        }else if(event.key === 'ArrowRight'){
+            console.log("right");
+            nextImage(event);
         }
     });
 }
@@ -64,9 +70,12 @@ function addImageListeners() {
 
 function showModalImage(index) {
     const modalImage = document.getElementById('modalImage');
+    const dlImage = document.getElementById('dl-image');
     if (index >= 0 && index < imageUrls.length) {
         modalImage.src = imageUrls[index];
         modalImage.setAttribute('data-index', index);
+        dlImage.src = imageUrls[index];
+        dlImage.setAttribute('data-index', index);
     }
 }
 
@@ -76,18 +85,29 @@ function closeImageModal() {
 
  }
 
+ function previousImage(event){
+        event.stopPropagation(); // Empêche l'événement de se propager au modal lui-même
+        navigateModal(-1); 
+ }
+
+ function nextImage(event){
+    event.stopPropagation(); // Empêche l'événement de se propager au modal lui-même
+    navigateModal(1); 
+}
+
+
  function setupNavigation() {
     const prevButton = document.getElementById('prevImage');
     const nextButton = document.getElementById('nextImage');
 
     prevButton.addEventListener('click', (event) => {
-        event.stopPropagation(); // Empêche l'événement de se propager au modal lui-même
-        navigateModal(-1); // Navigue vers l'image précédente
+        console.log('test');
+        previousImage(event);
     });
 
     nextButton.addEventListener('click', (event) => {
-        event.stopPropagation(); // Empêche l'événement de se propager au modal lui-même
-        navigateModal(1); // Navigue vers l'image suivante
+        console.log('test');
+        nextImage(event);
     });
 }
 
