@@ -25,15 +25,15 @@
   transform: translate(0, -50%);
 }
 
-#closeModal {
+#navBarImg {
   background: rgba(0, 0, 0, 0.5);
 }
 
-#closeModal:hover .cross-close{
+#closeModal:hover .cross-close, #dl-img:hover .download-icon, #fav-img:hover .favorite-icon{
   transform:scale(1.2);
 
 }
-.navigation-arrow, .cross-close{
+.navigation-arrow, .cross-close, .download-icon, .favorite-icon {
   transition: transform 0.5s ease-in-out;
   cursor: pointer;
 }
