@@ -1,5 +1,4 @@
 const sharp = require('sharp');
-const axios = require('axios');
 const fs = require('fs');
 
 exports.compressImage = async(filePath) => {
