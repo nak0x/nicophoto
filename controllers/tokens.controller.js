@@ -13,3 +13,15 @@ exports.genAdminToken = async (admin) => {
 exports.genRenewToken = async (user) => {
   return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "1h"});
 }
+
+exports.readAdminToken = async (token) => {
+  return jwt.verify(token, process.env.ADMIN_TOKEN_SECRET);
+}
+
+exports.readAccessToken = async (token) => {
+  return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+}
+
+exports.readRenewToken = async (token) => {
+  return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+}

@@ -11,6 +11,8 @@ const { validateUser, validateAdmin } = require("../validators/user.validator.js
  */
 exports.authToken = (permission) => {
   // State machine on permission
+  
+  // TODO : rewrite for use ejs render engine providing login pages
   switch(permission){
     case "user":
       return authUserToken;

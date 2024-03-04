@@ -19,3 +19,4 @@ async function fetchData(url, method, data) {
     }
 }
 
+const BASE_URL = "http://localhost:8000/";

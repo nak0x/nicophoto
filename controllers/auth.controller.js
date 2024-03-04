@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+const tokenController = require("./tokens.controller");
 const database = require("../database/database_utils");
 
 // Token managment
@@ -16,7 +16,12 @@ exports.auth = (req, res) => {
   switch (data.authType) {
     case "admin":
       let admin = database.getAdminCredentials(data.uuid);
-      break;
+      if(!admin.uuid){
+        return res.sendStatus(403);
+      }
+      return tokenController.genAdminToken(admin);
+    default:
+      let user = database.getAdminCredentials(data.uuid)
   }
 
   // If there is a user, try his credidentials

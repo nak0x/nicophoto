@@ -1,8 +1,8 @@
 const AlbumRouter = require("express").Router();
 
-const { authToken } = require("../middlewares/auth.middleware.js");
+const { authToken } = require("../../middlewares/auth.middleware.js");
 
-const albumController = require("../controllers/album.controller");
+const albumController = require("../../controllers/album.controller.js");
 
 AlbumRouter.route("/").post(
   /*authToken("admin"),*/ albumController.createAlbum
