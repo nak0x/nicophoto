@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./style/main.css">
     <title>Document</title>
 </head>
 <body>
@@ -22,28 +23,32 @@
 
 
     <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-transform z-50" onclick="closeImageModal() ">
-        <div class="flex justify-between items-center w-3/4 max-h-3/4 relative">
-            <!-- Icône pour fermer le modal -->
-            <div id="closeModal" class="absolute top-0 right-0 cursor-pointer p-2">
-                <!-- Exemple avec une icône SVG. Remplace par une icône FontAwesome si désiré -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </div>
+        <!-- Icône pour fermer le modal -->
+        <div id="closeModal" class="absolute top-0 right-0 cursor-pointer p-2 w-full">
+            <!-- Exemple avec une icône SVG. Remplace par une icône FontAwesome si désiré -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="cross-close h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </div>
+        <div class="flex justify-center items-center w-3/4 max-h-3/4 relative">
+
             <!-- Icônes pour naviguer entre les images -->
-            <div id="prevImage" class="absolute left-0 cursor-pointer p-4 select-none py-64">
-                <!-- Icône précédente -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
+
+            <div class="relative">
+                <img id="modalImage" src="" alt="Image en grand" class="">
+                <div id="prevImage" class="absolute left-0 cursor-pointer p-4 select-none py-64 backdrop-filter-container">
+                    <!-- Icône précédente -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="navigation-arrow h-6 w-6 text-white gradient-overlay" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </div>
+                <div id="nextImage" class="absolute right-0 cursor-pointer p-4 select-none py-64">
+                    <!-- Icône suivante -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="navigation-arrow h-6 w-6 text-white drop-shadow-xl" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
             </div>
-            <div id="nextImage" class="absolute right-0 cursor-pointer p-4 select-none py-64">
-                <!-- Icône suivante -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white drop-shadow-xl" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-            </div>
-            <img id="modalImage" src="" alt="Image en grand" class="">
         </div>
     </div>
 </div>
@@ -59,48 +64,3 @@
 
 
 
-    <!-- <div class="grid gap-4">
-        <div>
-            <img class="modal-trigger modalImage h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
-        </div>
-
-        <div>
-            <img class="modal-trigger modalImage h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
-        </div>
-        <div>
-            <img class="modal-trigger h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300 modalImage" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
-        </div>
-    </div>
-    <div class="grid gap-4">
-        <div>
-            <img class="modal-trigger modalImage h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
-        </div>
-        <div>
-            <img class="modal-trigger modalImage h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
-        </div>
-        <div>
-            <img class="modal-trigger modalImage h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
-        </div>
-    </div>
-    <div class="grid gap-4">
-        <div>
-            <img class="modal-trigger modalImage h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
-        </div>
-        <div>
-            <img class="modal-trigger modalImage h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
-        </div>
-        <div>
-            <img class="modal-trigger modalImage h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
-        </div>
-    </div>
-    <div class="grid gap-4">
-        <div>
-            <img class="modal-trigger modalImage h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
-        </div>
-        <div>
-            <img class="modal-trigger modalImage h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
-        </div>
-        <div>
-            <img class="modal-trigger modalImage h-auto max-w-full rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
-        </div>
-    </div> -->

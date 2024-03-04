@@ -8,3 +8,36 @@
     max-height: 100vh !important;
   }
   
+#prevImage:hover .navigation-arrow,
+#nextImage:hover .navigation-arrow
+{
+  transform:scale(1.5);
+
+}
+
+#prevImage, #nextImage {
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+
+  padding: 80px 10px; /* Ajustez selon vos besoins */
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+#closeModal {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+#closeModal:hover .cross-close{
+  transform:scale(1.2);
+
+}
+.navigation-arrow, .cross-close{
+  transition: transform 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+#modalImage {
+height: 95vh;
+}
