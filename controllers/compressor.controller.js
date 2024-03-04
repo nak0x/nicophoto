@@ -4,8 +4,7 @@ const fs = require('fs');
 
 exports.compressImage = async(imageUrl) => {
     try {
-        const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-        const imageBuffer = Buffer.from(response.data);
+        const imageBuffer = fs.readFileSync(filePath);
 
         const compressedImageBuffer = await sharp(imageBuffer)
             .resize({ height: 728 })
