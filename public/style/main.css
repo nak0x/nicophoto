@@ -8,6 +8,9 @@
     max-height: 100vh !important;
   }
   
+
+
+/* Gestion des icones  */
 #prevImage:hover .navigation-arrow,
 #nextImage:hover .navigation-arrow
 {
@@ -48,5 +51,9 @@ height: 95vh;
 }
 
 .active {
-  stroke: red !important; /* Couleur lorsque l'icône est un favori */
+  fill: red !important; /* Couleur lorsque l'icône est un favori */
 }
+
+
+
+
