@@ -18,4 +18,3 @@ async function fetchData(url, method, data) {
         throw error;
     }
 }
-

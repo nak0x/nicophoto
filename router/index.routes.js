@@ -11,4 +11,7 @@ const authRoutes = require("./auth.routes");
 
 Router.use("/auth", authRoutes);
 
+Router.use("/albums", albumsRoutes);
+Router.use("/album", albumRoutes);
+
 module.exports = Router;
