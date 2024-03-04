@@ -1,4 +1,4 @@
-// Auth middle wear is in charge of validating the auth of the req
+// Auth middleware is in charge of validating the auth of the req
 // Cf:  Auth section api doc
 
 const authController = require("../controllers/auth.controller.js");
@@ -22,7 +22,7 @@ exports.authToken = (permission) => {
       } 
       break;
   }
-} 
+}
 
 /**
  * Auth and validate the user token
@@ -99,5 +99,3 @@ async function authAdminToken (req, res, next){
   }
 
 }
-
-exports.checkUser = ()=>{return;}
