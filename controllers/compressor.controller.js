@@ -2,7 +2,7 @@ const sharp = require('sharp');
 const axios = require('axios');
 const fs = require('fs');
 
-exports.compressImage = async(imageUrl) => {
+exports.compressImage = async(filePath) => {
     try {
         const imageBuffer = fs.readFileSync(filePath);
 
