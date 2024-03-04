@@ -1,5 +1,7 @@
 let imageUrls = [];
 
+// nouvelle version
+
 async function fetchAndDisplayImages() {
     try {
         const result = await fetchData("https://picsum.photos/v2/list", "GET");
