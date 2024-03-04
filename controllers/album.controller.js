@@ -1,6 +1,7 @@
 const slugify = require("slugify");
 const Database = require("../database/database");
 const { v4: uuidv4 } = require("uuid");
+const fs = require("fs");
 
 const {
   albumSchemaPost,
@@ -19,18 +20,29 @@ exports.createAlbum = async (req, res, next) => {
 
     const query =
       "INSERT INTO album (uid, title, description, password, date, url) VALUES (?, ?, ?, ?, ?, ?)";
+
     const params = [
       uuidv4(),
       body.title,
       body.description,
       body.password,
       body.date,
-      slugify(body.url, { lower: true }) ??
-        slugify(body.title, { lower: true }),
+      body.url
+        ? slugify(body.url, { lower: true })
+        : slugify(body.title, { lower: true }),
     ];
 
     await new Promise((resolve, reject) => {
       Database.run(query, params, (err) => {
+        if (err) {
+          reject(err);
+        }
+        resolve();
+      });
+    });
+
+    await new Promise((resolve, reject) => {
+      fs.mkdir(`albums/${params[0]}`, (err) => {
         if (err) {
           reject(err);
         }
@@ -86,7 +98,6 @@ exports.getAlbum = async (req, res, next) => {
   }
 };
 
-// TODO
 exports.updateAlbum = async (req, res, next) => {
   const body = req.body;
 
