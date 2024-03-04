@@ -25,8 +25,9 @@ exports.initTables = () => {
         uid TINYTEXT PRIMARY KEY NOT NULL,
         name VARCHAR(255) DEFAULT NULL,
         preview BLOB,
-        pinned BOOLEAN DEFAULT FALSE,
+        pinned INTEGER DEFAULT 0,
         album_uid INTEGER NOT NULL,
+        mime_type VARCHAR(255) DEFAULT NULL,
         FOREIGN KEY(album_uid) REFERENCES album(uid)
     );
     `);
