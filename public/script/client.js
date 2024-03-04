@@ -154,6 +154,3 @@ function navigateModal(direction) {
 //     const modalImage = document.getElementById('modalImage');
 //     modalImage.src = images[index];
 // }
-
-
-
