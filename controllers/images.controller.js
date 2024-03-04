@@ -2,8 +2,7 @@ const Database = require("../database/database");
 
 exports.getAllAlbumImages = async (req, res) => {
   try {
-    const query =
-      "SELECT * FROM image WHERE album_id = ? ORDER BY created_at DESC";
+    const query = "SELECT * FROM image WHERE album_id = ?";
     const params = [];
 
     const rows = await new Promise((resolve, reject) => {
