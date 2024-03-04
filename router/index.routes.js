@@ -2,10 +2,10 @@ const Router = require("express").Router();
 
 // Importing routes
 
-const imageRoutes = require("./images.routes");
-const albumRoutes = require("./album.routes");
-const albumsRoutes = require("./albums.routes");
-const authRoutes = require("./auth.routes");
+const imageRoutes = require("./api/images.routes");
+const albumRoutes = require("./api/album.routes");
+const albumsRoutes = require("./api/albums.routes");
+const authRoutes = require("./api/auth.routes");
 
 // Routing
 
