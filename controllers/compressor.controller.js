@@ -3,7 +3,7 @@ const fs = require('fs');
 
 
 // Fonction qui prend en paramètre le chemin du fichier image et la hauteur de l'image à compresser
-async function compressImage(filePath, height = 728) {
+exports.compressImage = async(filePath, height = 728) => {
     // On essaye de lire le fichier image
   try {
     // On lit le fichier image
