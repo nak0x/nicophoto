@@ -1,4 +1,5 @@
-async function fetchData(url, method, data) {
+async function fetchData(endUrl, method, data) {
+    const url = 'http://localhost:8000/api' + endUrl;
     try {
         const response = await fetch(url, {
             method,
