@@ -78,24 +78,24 @@ function addImageListeners() {
 
     images.forEach(image => {
         image.addEventListener('click', function() {
-            const index = this.getAttribute('data-index');
-            showModalImage(index);
+            const index = this.getAttribute('data-index'); 
+            showModalImage(index); 
             modal.classList.remove('hidden');
         });
     });
     cross.addEventListener('click', function() {
-        modal.classList.add('hidden');
+        modal.classList.add('hidden'); // ferme l'image en cliquant sur la croix
     });
 
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
-            closeImageModal();
+            closeImageModal(); // sort de l'image plein écran en appuyant sur echap
         } else if(event.key === 'ArrowLeft'){
             console.log("left")
-            previousImage(event);
+            previousImage(event); // déplace vers la gauche avec les flèches
         }else if(event.key === 'ArrowRight'){
             console.log("right");
-            nextImage(event);
+            nextImage(event); // déplace vers la droite avec les flèches
         }
     });
 }
