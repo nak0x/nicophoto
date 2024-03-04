@@ -41,3 +41,12 @@
 #modalImage {
 height: 95vh;
 }
+
+.favorite-icon {
+  stroke: white; /* Couleur par défaut */
+  transition: stroke 0.3s ease; /* Transition pour un changement de couleur fluide */
+}
+
+.active {
+  stroke: red !important; /* Couleur lorsque l'icône est un favori */
+}
