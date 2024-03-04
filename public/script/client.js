@@ -40,6 +40,7 @@ function addImageListeners() {
     const images = document.querySelectorAll('.modal-trigger');
     const modal = document.getElementById('imageModal');
     const modalImage = document.getElementById('modalImage');
+    const cross = document.getElementById('closeModal');
 
     images.forEach(image => {
         image.addEventListener('click', function() {
@@ -48,8 +49,15 @@ function addImageListeners() {
             modal.classList.remove('hidden');
         });
     });
+    cross.addEventListener('click', function() {
+        modal.classList.add('hidden');
+    });
 
-    // Configuration des boutons suivant/précédent, basé sur `data-index`
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeImageModal();
+        }
+    });
 }
 
 
@@ -64,6 +72,7 @@ function showModalImage(index) {
 function closeImageModal() {
      const modal = document.getElementById('imageModal');
      modal.classList.add('hidden'); // Cache le modal
+
  }
 
  function setupNavigation() {
