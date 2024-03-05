@@ -1,3 +1,4 @@
+
 let imageUrls = [];
 
 // nouvelle version
@@ -7,43 +8,38 @@ async function fetchAndDisplayImages() {
        
         const result = await fetchData("https://picsum.photos/v2/list", "GET");
         const grid = document.getElementById('photo-grid');
-        const columnCount = 4; // Nombre de colonnes
-        const columns = Array.from({ length: columnCount }, () => document.createElement('div'));
-        columns.forEach(column => {
-            column.className = 'grid gap-4 h-fit';
-            grid.appendChild(column);
-        });
-        imageUrls = result.map(element => element.download_url); // Stocke les URLs dans le tableau global
 
 
-        result.forEach((element, index) => {
-            const imgDiv = createImageElement(element, index);
-            // creation de l'icone favoris
+        result.forEach( async (element, index) => {
+            const imgDiv = await createImageElement(element, index);
             const favDiv = createFavoriteDiv(element.download_url, index);
             const checkbox = createCheckbox(index);
             imgDiv.appendChild(favDiv); // Ajoute l'icône de favori à imgDiv
+            grid.appendChild(imgDiv); // Ajoute directement imgDiv à #photo-grid
             imgDiv.appendChild(checkbox); // Ajoute checkbox
 
-
-            columns[index % columnCount].appendChild(imgDiv);
+        });
+        
+        // Initialisation de Masonry après l'ajout des images
+        var msnry = new Masonry('#photo-grid', {
+            itemSelector: '.grid-item',
+            columnWidth: 200
         });
 
+     
+        
+        imageUrls = result.map(element => element.download_url); // Stocke les URLs dans le tableau global
 
         addImageListeners();
         setupNavigation(); 
         updateFavoriteVisualState(); // Met à jour l'état visuel des favoris après l'affichage des images
+
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
 document.addEventListener('DOMContentLoaded', fetchAndDisplayImages);
-
-
-
-
-
-
 
 
 // Assurez-vous que cette nouvelle fonction est appelée lors du chargement de la page
@@ -149,18 +145,22 @@ function navigateModal(direction) {
 }
 
 // creation d'images pour fun async
-function createImageElement(element, index) {
+
+async function createImageElement(element, index) {
     const imgDiv = document.createElement('div');
-    imgDiv.className = "h-fit overflow-hidden rounded-lg relative";
+    imgDiv.className = "h-fit overflow-hidden rounded-lg relative grid-item w-1/5";
 
     const img = document.createElement('img');
     img.src = element.download_url; // Utilise la propriété correcte de l'API
-    img.className = "modal-trigger modalImage h-auto w-full rounded-lg cursor-pointer hover:scale-110 transition-transform duration-500 block";
+    img.className = "modal-trigger modalImage h-auto w-full rounded-lg cursor-pointer hover:scale-110 transition-transform duration-500 block ";
     img.alt = "Image loaded from API";
     img.loading = "lazy";
     img.setAttribute('data-index', index);
 
     imgDiv.appendChild(img);
+
+
+    
     return imgDiv;
 }
 // fin créations images
@@ -203,7 +203,7 @@ function createFavoriteDiv(imageUrl, index) {
 
 // fin favoris
 
-
+// changement de l'état des favoris
 function toggleFavorite(imageUrl, index) {
     
     // Récupère le tableau des favoris depuis localStorage, ou initialise un tableau vide si aucun favori n'est trouvé
@@ -237,6 +237,9 @@ document.getElementById('add-fav-image').addEventListener('click', function(even
     toggleFavorite(imageUrl, index);
     updateFavoriteVisualState();
 });
+// fin changement de l'état des favoris
+
+
 
 // Fonction pour mettre à jour l'état visuel des favoris
 function updateFavoriteVisualState() {
@@ -267,12 +270,12 @@ function createCheckbox(index) {
 
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
-    checkbox.className = "form-checkbox h-5 w-5 text-gray-600"; // Utilisez les classes Tailwind pour la mise en forme
+    checkbox.className = "form-checkbox h-5 w-5 text-gray-600 cursor-pointer"; // Utilisez les classes Tailwind pour la mise en forme
     checkbox.id = `select-image-${index}`;
 
     const label = document.createElement('label');
     label.htmlFor = `select-image-${index}`;
-    label.className = "ml-2 text-white z-1";
+    label.className = "ml-2 text-white z-1 ";
 
     checkboxContainer.appendChild(checkbox);
     checkboxContainer.appendChild(label);
@@ -281,3 +284,24 @@ function createCheckbox(index) {
 }
 
 // fin création checkbox 
+
+
+        // const columnCount = 4; // Nombre de colonnes
+        // const columns = Array.from({ length: columnCount }, () => document.createElement('div'));
+        // columns.forEach(column => {
+        //     column.className = 'grid gap-4 h-fit';
+        //     grid.appendChild(column);
+        // });
+        
+        
+        // result.forEach((element, index) => {
+        //     const imgDiv = createImageElement(element, index);
+        //     // creation de l'icone favoris
+        //     const favDiv = createFavoriteDiv(element.download_url, index);
+        //     const checkbox = createCheckbox(index);
+        //     imgDiv.appendChild(favDiv); // Ajoute l'icône de favori à imgDiv
+        //     imgDiv.appendChild(checkbox); // Ajoute checkbox
+            
+            
+        //     columns[index % columnCount].appendChild(imgDiv);
+        // });
