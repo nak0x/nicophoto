@@ -1,9 +1,15 @@
 <%- include('./header') -%>
 
+<%- include('./adminheader') -%>
+
+<!-- 
+AlbumTitleH1
+for each image on line ~~40
+-->
 
 <header class="bg-white shadow flex justify-between items-center">
 <div class="max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-  <h1 class="text-3xl font-bold tracking-tight text-gray-900">LE GROS nom du dossier en question là là</h1>
+  <h1 class="text-3xl font-bold tracking-tight text-gray-900"><% AlbumTitleH1 %></h1>
 </div>
 </header>
 
@@ -32,7 +38,11 @@
   </div>
 </div>
 
-<p>Je suis une image ta vue '^'</p>
+<% array.forEach(element => { %>
+ 
+<!-- add image here -->
+
+<% }) %>
 
 <p>Your token is <% token %></p>
 

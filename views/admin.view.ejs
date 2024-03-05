@@ -1,8 +1,98 @@
 <%- include('./header') -%>
+<%- include('./adminheader') -%>
 
-<h1>You are logged in as an admin</h1>
+<header class="bg-white shadow flex justify-between items-center">
+    <div class="max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Les dossier</h1>
+    </div>
+    <!-- Modal toggle -->
+    <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mr-4" type="button" id="openButton">
+        Crée un dossier
+    </button>
+  </header>
 
-<p>Your token is <% token %></p>
+  <main>
+    <div class="flex flex-wrap justify-center gap-4 mt-4">
+      <!-- Début de la carte -->
+      <div class="relative flex justify-center items-center border-2 border-white rounded-lg overflow-hidden max-w-80 w-full h-48 ">
+        <img src="https://images.unsplash.com/photo-1683009427037-c5afc2b8134d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8" alt="alt-text" class="w-full h-full object-cover object-center">
+        <div class="absolute bottom-0 left-0 right-0 p-3 bg-white bg-opacity-75 backdrop-filter backdrop-blur-lg">
+          <p class="text-lg font-semibold">titre folder</p>
+          <p class="text-sm opacity-70">15/05/2248</p>
+        </div>
+      </div>
+      <!-- Fin de la carte -->
+      <!--  <div class="relative flex justify-center items-center border-2 border-white rounded-lg overflow-hidden max-w-80 w-full h-48">
+      <img src="https://images.unsplash.com/photo-1683009427037-c5afc2b8134d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8" alt="alt-text" class="w-full h-full object-cover object-center">
+        <div class="absolute bottom-0 left-0 right-0 p-3 bg-white bg-opacity-75 backdrop-filter backdrop-blur-lg">
+          <p class="text-lg font-semibold">Card item</p>
+          <p class="text-sm opacity-70">15/05/2248</p>
+        </div>
+      </div>-->
+      <!-- Répétez cette structure pour chaque carte -->
+    </div>
+    
+
+    <!-- Folder creation modal -->
+    <div id="folder-creation-modal" tabindex="-1" aria-hidden="true" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-transform">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Create Folder
+          </h3>
+          <button type="button"
+          id="closeButton"
+            class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            data-modal-hide="folder-creation-modal">
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="p-4 md:p-5">
+          <form class="space-y-4" action="#">
+            <div>
+              <label for="folder-title"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titre</label>
+              <input type="text" name="folder-title" id="folder-title"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="Enter title" required>
+            </div>
+            <div>
+              <label for="folder-description"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+              <textarea name="folder-description" id="folder-description" rows="4"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg max-w-screen focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white min-h-11 max-h-32"
+                placeholder="Enter description" required></textarea>
+            </div>
+            <div>
+              <label for="folder-date"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+              <input type="date" name="folder-date" id="folder-date"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                required>
+            </div>
+            <button type="submit"
+              class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create
+              Folder</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+</div>
+<script src="script/admin.script.js"></script>
+
+
 
 
 <%- include('./footer') -%>
