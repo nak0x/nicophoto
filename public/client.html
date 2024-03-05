@@ -25,14 +25,15 @@
 
 
     <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-transform z-50">
-        <!-- Icône pour fermer le modal -->
+        
         <div id="navBarImg" class="absolute top-0 right-0 cursor-pointer p-2 w-full flex gap-8 px-4">
-            <!-- Exemple avec une icône SVG. Remplace par une icône FontAwesome si désiré -->
+            <!-- Icône pour fermer le modal -->
             <div id="closeModal">
                 <svg xmlns="http://www.w3.org/2000/svg" class="cross-close h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </div>
+            <!-- Icône pour dl -->
             <div id="dl-img">
                 <a href="/utils.js" id="dl-image" download="https://www.rustica.fr/images/coucou-gris.jpg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="download-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,8 +41,9 @@
                 </svg>
                 </a>
             </div>
+            <!-- Icône pour favoris -->
             <div id="fav-img">
-                <a href="" id="add-fav-image">
+                <a href="#" id="add-fav-image">
                 <svg xmlns="http://www.w3.org/2000/svg" class="favorite-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.492 4.492 0 00-6.364 0z" />
                 </svg>
@@ -77,5 +79,6 @@
 <script src="./utils.js"></script>
 <script src="./script/fetchimagesclient.js"></script>
 <script src="./script/client.js"></script>
+<script src="./script/masonry.pkgd.min.js"></script>
 </body>
 </html>
