@@ -165,3 +165,47 @@ exports.deleteAlbum = async (req, res, next) => {
     });
   }
 };
+
+exports.getAlbumByURL = async (req, res) => {
+  try {
+    const slug = req.params.album_slug;
+    const query = `SELECT * FROM album WHERE url = ?`;
+    const params = [slug];
+    const row = await new Promise((resolve, reject) => {
+      Database.get(query, params, (err, row) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(row);
+      });
+    });
+    // console.log(slug);
+    if (!row) res.status(404);
+    
+    const getImagesByAlbumIdQuery = `SELECT uid FROM image WHERE album_uid = ?`;
+    const getImagesByAlbumIdParam = [row.uid];
+    const imageUids = await new Promise((resolve, reject) => {
+      Database.all(
+        getImagesByAlbumIdQuery,
+        getImagesByAlbumIdParam,
+        (err, images) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(images);
+        }
+      );
+    });
+    console.log(imageUids);
+
+    res.render("album", {
+      albumInfo: row,
+      imageUids: imageUids.map((row) => row.uid),
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      error: { code: 404, message: error },
+    });
+  }
+};

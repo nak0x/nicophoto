@@ -24,8 +24,8 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use("/", viewsRouter);
 app.use("/api", apiRouteur);
+app.use("/", viewsRouter);
 app.use("/public", express.static("public"));
 
 app.use("*", (req, res) => {

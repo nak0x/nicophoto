@@ -1,4 +1,4 @@
-const Router = require('express').Router();
+const AlbumRouter = require('express').Router();
 
 Router.get("/", (req,res)=>{
   res.render("client", {
@@ -24,4 +24,4 @@ Router.get("/", (req,res)=>{
   })
 })
 
-module.exports = Router;
+module.exports = AlbumRouter;
