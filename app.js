@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const session = require("express-session");
 const path = require("path");
 const app = express();
 
@@ -19,10 +20,17 @@ const viewsRouter = require("./router/views.routes");
 const internal = require("stream");
 
 // App def
-
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+
+// Session definition
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.use("/", viewsRouter);
 app.use("/api", apiRouteur);

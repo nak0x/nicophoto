@@ -107,6 +107,7 @@ exports.getAdminCredentials = async (id) => {
         pass: admin.pass,
       };
     } else {
+      console.error(`Try to reach the admin ${id}, but the admin does not exist`)
       return {};
     }
   } catch (err) {
