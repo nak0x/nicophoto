@@ -26,24 +26,13 @@ async function fetchAndDisplayImages() {
             img.loading = "lazy";
             img.setAttribute('data-index', index); // placé après la création de `img`
             
-            const favDiv = document.createElement('div');
-            favDiv.className = "absolute top-0 right-0 p-2"; // Positionne l'icône en haut à droite
-            favDiv.innerHTML = `
-                <a href="" id="add-fav-image-${index}" class="add-fav-image"> <!-- Ajoutez un index pour rendre l'ID unique -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="favorite-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.492 4.492 0 00-6.364 0z" />
-                    </svg>
-                </a>
-            `;
-
-            favDiv.querySelector('.add-fav-image').addEventListener('click', function(event) {
-                event.preventDefault(); // Empêche le comportement par défaut du lien
-                event.stopPropagation(); // Empêche l'événement de cliquer sur l'image elle-même
-                toggleFavorite(imageUrls[index], index);
-            });
-        
             imgDiv.appendChild(img);
+
+            // creation de l'icone favoris
+            const favDiv = createFavoriteDiv(element.download_url, index);
             imgDiv.appendChild(favDiv); // Ajoute l'icône de favori à imgDiv
+
+
             columns[index % columnCount].appendChild(imgDiv);
         });
         addImageListeners();
@@ -198,4 +187,42 @@ function navigateModal(direction) {
     if (newIndex >= 0 && newIndex < imageUrls.length) {
         showModalImage(newIndex);
     }
+}
+
+
+
+// Fonction pour créer un élément de favori (favDiv)
+function createFavoriteDiv(imageUrl, index) {
+    const favDiv = document.createElement('div');
+    favDiv.className = "absolute top-0 right-0 p-2"; // Positionne l'icône en haut à droite
+
+    const favLink = document.createElement('a');
+    favLink.href = "";
+    favLink.id = `add-fav-image-${index}`;
+    favLink.className = "add-fav-image";
+
+    const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svgIcon.setAttribute('class', 'favorite-icon h-6 w-6 text-white hover:scale-125');
+    svgIcon.setAttribute('fill', 'none');
+    svgIcon.setAttribute('viewBox', '0 0 24 24');
+    svgIcon.setAttribute('stroke', 'currentColor');
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('stroke-linecap', 'round');
+    path.setAttribute('stroke-linejoin', 'round');
+    path.setAttribute('stroke-width', '2');
+    path.setAttribute('d', 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.492 4.492 0 00-6.364 0z');
+
+    svgIcon.appendChild(path);
+    favLink.appendChild(svgIcon);
+    favDiv.appendChild(favLink);
+
+    // Ajout du gestionnaire d'événements pour le favori
+    favLink.addEventListener('click', function(event) {
+        event.preventDefault(); // Empêche le comportement par défaut du lien
+        event.stopPropagation(); // Empêche l'événement de cliquer sur l'image elle-même
+        toggleFavorite(imageUrl, index);
+    });
+
+    return favDiv;
 }
