@@ -207,6 +207,26 @@ exports.getAlbumByURL = async (req, res) => {
   }
 };
 
-exports.getAlbumUidFromSlug = async(req,res) => {
+exports.getAlbumUidFromSlug = async (req, res) => {
+  try {
+    const slug = req.params.album_slug;
+    const query = `SELECT uid FROM album WHERE url = ?`;
+    const params = [slug];
+    const row = await new Promise((resolve, reject) => {
+      Database.get(query, params, (err, row) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(row);
+      });
+    });
 
-}
+    if (!row) {
+      return res.status(404).send({ success: false, error: "Album not found" });
+    }
+
+    res.send({ success: true, data: row.uid });
+  } catch (error) {
+    res.status(500).send({ success: false, error: error.message });
+  }
+};
