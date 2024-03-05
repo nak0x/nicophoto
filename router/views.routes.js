@@ -10,9 +10,9 @@ const adminRoutes = require("./pages/admin.routes");
   // res.render('index');
 // })
 
+Router.use("/admin", /*auth.authToken("admin"),*/ adminRoutes);
 Router.get("/:album_slug", getAlbumByURL);
 
-Router.use("/admin", /*auth.authToken("admin"),*/ adminRoutes);
 // Router.use("/album/:id", /*auth.authToken("album"), */ albumRoutes);
 
 module.exports = Router;
