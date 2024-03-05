@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-// This file is in charge of managing the JWT tokens such as generation, check and other
-
-exports.genUserToken = async (user)=>{
-  
-=======
 // This file is in charge of managing the JWT tokens such as generation, check and other
 
 const jwt = require("jsonwebtoken");
@@ -30,5 +24,4 @@ exports.readAccessToken = async (token) => {
 
 exports.readRenewToken = async (token) => {
   return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
->>>>>>> theo
 }
