@@ -8,6 +8,9 @@
     max-height: 100vh !important;
   }
   
+
+
+/* Gestion des icones  */
 #prevImage:hover .navigation-arrow,
 #nextImage:hover .navigation-arrow
 {
@@ -41,3 +44,16 @@
 #modalImage {
 height: 95vh;
 }
+
+.favorite-icon {
+  stroke: white; /* Couleur par défaut */
+  transition: stroke 0.3s ease; /* Transition pour un changement de couleur fluide */
+}
+
+.active {
+  fill: red !important; /* Couleur lorsque l'icône est un favori */
+}
+
+
+
+
