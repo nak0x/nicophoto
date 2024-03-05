@@ -1,12 +1,13 @@
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4, validate } = require("uuid");
 const multer = require("multer");
 const fs = require("fs");
 const Database = require("../database/database");
 const { compressImage } = require("../controllers/compressor.controller");
+const { getAlbumInfosByURL } = require("./album.controller");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, `albums/${req.params.album_uid}`);
+    cb(null, `albums/${req.identifier}`);
   },
   filename: function (req, file, cb) {
     cb(null, `${uuidv4()}.${file.originalname.split(".").pop()}`);
@@ -15,12 +16,20 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-exports.createImage = (req, res) => {
+exports.createImage = async (req, res) => {
   try {
-    if (
-      !fs.existsSync(`albums/${req.params.album_uid}`) ||
-      !req.params.album_uid
-    ) {
+    let identifier = req.params.album_uid;
+    if (!validate(identifier)) {
+      const albumInfos = await getAlbumInfosByURL(identifier);
+      if (!albumInfos.success) {
+        return res.status(404).send({
+          ...albumInfos,
+        });
+      }
+      identifier = albumInfos.data.uid;
+    }
+    req.identifier = identifier;
+    if (!fs.existsSync(`albums/${identifier}`) || !identifier) {
       return res.status(404).send({
         success: false,
         error: { code: 404, message: "Album not found" },
@@ -44,7 +53,7 @@ exports.createImage = (req, res) => {
           req.body.name,
           preview,
           req.body.pinned,
-          req.params.album_uid,
+          identifier,
           mime_type,
         ];
 

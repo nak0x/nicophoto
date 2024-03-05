@@ -22,6 +22,6 @@ AlbumRouter.use("/:album_uid/image", imageRoutes);
 
 AlbumRouter.use("/:album_uid/images/download", imagesController.downloadImages);
 
-AlbumRouter.use("/:album_uid/images", imagesController.getAllAlbumImages);
+// AlbumRouter.use("/:album_uid/images", imagesController.getAllAlbumImages);
 
 module.exports = AlbumRouter;

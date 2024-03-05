@@ -8,6 +8,8 @@ const {
   albumSchemaPatch,
 } = require("../validators/album.validator");
 
+const { getImageUIDsByAlbumUID } = require("./images.controller");
+
 exports.createAlbum = async (req, res, next) => {
   const body = req.body;
 
@@ -64,13 +66,7 @@ exports.createAlbum = async (req, res, next) => {
 
 exports.getAlbum = async (req, res, next) => {
   try {
-    req.user = {};
-    req.user.admin = true;
-    const selectValues = req.user.admin
-      ? "*"
-      : "uid, title, description, date, url";
-
-    const query = `SELECT ${selectValues} FROM album WHERE uid = ?`;
+    const query = `SELECT * FROM album WHERE uid = ?`;
     const params = [req.params.album_uid];
 
     const rows = await new Promise((resolve, reject) => {
@@ -166,9 +162,8 @@ exports.deleteAlbum = async (req, res, next) => {
   }
 };
 
-exports.getAlbumByURL = async (req, res) => {
+exports.getAlbumInfosByURL = async (slug) => {
   try {
-    const slug = req.params.album_slug;
     const query = `SELECT * FROM album WHERE url = ?`;
     const params = [slug];
     const row = await new Promise((resolve, reject) => {
@@ -179,33 +174,33 @@ exports.getAlbumByURL = async (req, res) => {
         resolve(row);
       });
     });
-    // console.log(slug);
-    if (!row) res.status(404);
-    
-    const getImagesByAlbumIdQuery = `SELECT uid FROM image WHERE album_uid = ?`;
-    const getImagesByAlbumIdParam = [row.uid];
-    const imageUids = await new Promise((resolve, reject) => {
-      Database.all(
-        getImagesByAlbumIdQuery,
-        getImagesByAlbumIdParam,
-        (err, images) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(images);
-        }
-      );
-    });
-    console.log(imageUids);
 
-    res.render("album", {
-      albumInfo: row,
-      imageUids: imageUids.map((row) => row.uid),
-    });
+    if (!row) throw new Error("No album found");
+
+    return {
+      success: true,
+      data: row,
+    };
   } catch (error) {
-    res.send({
+    return {
       success: false,
-      error: { code: 404, message: error },
-    });
+    };
   }
+};
+
+exports.renderAlbumPageByAlbumURL = async (req, res, next) => {
+  const albumInfos = await this.getAlbumInfosByURL(req.params.albumURL);
+  if (!albumInfos.success) {
+    return next();
+  }
+
+  const imageUIDs = await getImageUIDsByAlbumUID(albumInfos.data.uid);
+  if (!imageUIDs.success) {
+    return next();
+  }
+
+  res.render("album", {
+    albumInfos: albumInfos.data,
+    imageUIDs: imageUIDs.data,
+  });
 };

@@ -2,10 +2,10 @@ const Database = require("../database/database");
 const fs = require("fs");
 const archiver = require("archiver");
 
-exports.getAllAlbumImages = async (req, res) => {
+exports.getImageUIDsByAlbumUID = async (albumUID) => {
   try {
-    const query = "SELECT * FROM image WHERE album_uid = ?";
-    const params = [req.params.album_uid];
+    const query = "SELECT uid FROM image WHERE album_uid = ?";
+    const params = [albumUID];
 
     const rows = await new Promise((resolve, reject) => {
       Database.all(query, params, (err, rows) => {
@@ -16,19 +16,16 @@ exports.getAllAlbumImages = async (req, res) => {
       });
     });
 
-    if (!rows) {
-      throw new Error("No images found");
-    }
+    if (!rows) throw new Error("No images found");
 
-    res.send({
+    return {
       success: true,
       data: rows.map((row) => row.uid),
-    });
+    };
   } catch (error) {
-    res.send({
+    return {
       success: false,
-      error: { code: 404, message: error },
-    });
+    };
   }
 };
 
@@ -87,7 +84,6 @@ exports.downloadImages = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
     res.status(400).send({
       success: false,
       error: { code: 400, message: error },
