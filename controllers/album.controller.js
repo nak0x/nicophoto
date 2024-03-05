@@ -204,3 +204,7 @@ exports.renderAlbumPageByAlbumURL = async (req, res, next) => {
     imageUIDs: imageUIDs.data,
   });
 };
+
+exports.getAlbumUidFromSlug = async(req,res) => {
+
+}

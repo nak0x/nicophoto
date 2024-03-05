@@ -8,8 +8,8 @@ const Router = require("express").Router();
 
 Router.get("/", renderAlbumsPage);
 
-Router.get("/create-album", (req, res) => {
-  // Send create album page
-});
+Router.get("/create-album", (req, res) =>{
+  res.render("album")
+} );
 
 module.exports = Router;
