@@ -36,19 +36,19 @@ exports.auth = (type="render", permission = "album") => {
 function adminAuth(req, res, next)
 {
   // Check if the admin is already logged in
-  if(!req.session.authToken) return res.render("admin-login");
+  if(!req.session.authToken) return res.render("admin_login");
 
   // Read the token data
   const tokenData = tokenController.readAdminToken(req.session.authToken);
   if(tokenData.err){
     console.error(err)
-    return res.render('admin-login')
+    return res.render('admin_login')
   }
 
   // Check if the token data is valid
   const data = getAdminCredentials(tokenData.uuid);
   if(data == {}){
-    return res.render('admin-login');
+    return res.render('admin_login');
   }else{
     return next();
   }
@@ -64,19 +64,19 @@ function adminAuth(req, res, next)
 function albumAuth(req, res, next)
 {
   // Check if the admin is already logged in
-  if(!req.session.authToken) return res.render("album-login");
+  if(!req.session.authToken) return res.render("album_login");
 
   // Read the token data
   const tokenData = tokenController.readAccessToken(req.session.authToken);
   if(tokenData.err){
     console.error(err)
-    return res.render('album-login')
+    return res.render('album_login')
   }
 
   // Check if the token data is valid
   const data = getCredentials(tokenData.uuid);
   if(data == {}){
-    return res.render('album-login');
+    return res.render('album_login');
   }else{
     return next();
   }
