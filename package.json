@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/nak0x/nicophoto#readme",
   "dependencies": {
+    "archiver": "^7.0.0",
     "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.1",
