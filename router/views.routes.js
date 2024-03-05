@@ -12,7 +12,6 @@ const adminRoutes = require("./pages/admin.routes");
 
 Router.use("/admin", /*auth.authToken("admin"),*/ adminRoutes);
 Router.get("/:album_slug", getAlbumByURL);
-
 // Router.use("/album/:id", /*auth.authToken("album"), */ albumRoutes);
 
 module.exports = Router;
