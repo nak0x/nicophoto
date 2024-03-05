@@ -1,19 +1,11 @@
 const Router = require("express").Router({mergeParams: true});
 
-const { getAlbumByURL } = require("../controllers/album.controller");
-const auth = require("../middlewares/auth.middleware");
-const AlbumRouter = require("./api/album.routes");
+const { auth } = require("../middlewares/auth.middleware");
 
 const adminRoutes = require("./pages/admin.routes");
 const albumRoutes = require("./pages/album.routes")
 
-// Router.use("/", (req, res) => {
-  // res.render('index');
-// })
-
-Router.use("/admin", /*auth.authToken("admin"),*/ adminRoutes);
-Router.use("/", albumRoutes)
-// Router.get("/:album_slug", getAlbumByURL);
-// Router.use("/album/:id", /*auth.authToken("album"), */ albumRoutes);
+Router.use("/admin", auth('render', 'admin'), adminRoutes);
+Router.use(albumRoutes)
 
 module.exports = Router;

@@ -1,28 +1,84 @@
 // Auth middleware is in charge of validating the auth of the req
 // Cf:  Auth section api doc
 
-const authController = require("../controllers/auth.controller.js");
 const { validateUser, validateAdmin } = require("../validators/user.validator.js");
+const tokenController = require("../controllers/tokens.controller.js")
+const { getAdminCredentials } = require("../database/database_utils.js");
 
 /**
  * Auth the bearer token
+ * @param {String} type Type of the auth "render" for views routing and "api" for api routes
  * @param {String} permission The permission level of the route [user, admin] if void => pass the middleware
  * @returns {Function} The permission corresponding middleware.
  */
-exports.authToken = (permission) => {
-  // State machine on permission
-  
-  // TODO : rewrite for use ejs render engine providing login pages
+exports.auth = (type="render", permission = "album") => {
   switch(permission){
-    case "user":
-      return authUserToken;
     case "admin":
+      if(type == 'render'){
+        return adminAuth;
+      }
       return authAdminToken;
     default:
-      return (req, res, next)=>{
-        next();
-      } 
-      break;
+      if(type == 'render'){
+        return albumAuth;
+      }
+      return authUserToken;
+  }
+}
+
+/**
+ * Auth middleware for render admin grade views
+ * @param {Express.Request} req HTTP Request
+ * @param {Express.Response} res HTPP Response
+ * @param {Function} next next middleware
+ * @returns {Object | Express.Response} 
+ */
+function adminAuth(req, res, next)
+{
+  // Check if the admin is already logged in
+  if(!req.session.authToken) return res.render("admin_login");
+
+  // Read the token data
+  const tokenData = tokenController.readAdminToken(req.session.authToken);
+  if(tokenData.err){
+    console.error(err)
+    return res.render('admin_login')
+  }
+
+  // Check if the token data is valid
+  const data = getAdminCredentials(tokenData.uuid);
+  if(data == {}){
+    return res.render('admin_login');
+  }else{
+    return next();
+  }
+}
+
+/**
+ * Auth middleware for render album grade views
+ * @param {Express.Request} req HTTP Request
+ * @param {Express.Response} res HTPP Response
+ * @param {Function} next next middleware
+ * @returns {Object | Express.Response} 
+ */
+function albumAuth(req, res, next)
+{
+  // Check if the admin is already logged in
+  if(!req.session.authToken) return res.render("album_login");
+
+  // Read the token data
+  const tokenData = tokenController.readAccessToken(req.session.authToken);
+  if(tokenData.err){
+    console.error(err)
+    return res.render('album_login')
+  }
+
+  // Check if the token data is valid
+  const data = getCredentials(tokenData.uuid);
+  if(data == {}){
+    return res.render('album_login');
+  }else{
+    return next();
   }
 }
 
@@ -73,7 +129,7 @@ async function authUserToken (req, res, next){
 async function authAdminToken (req, res, next){
 
   // Get the token from the auth headers
-  const authHeader = req.headers['authorization'];
+  const authToken = req.headers['authorization'];
   const token = authToken && authToken.split(" ");
 
   // Check the token presence
