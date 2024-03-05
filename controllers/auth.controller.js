@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-const jwt = require("jsonwebtoken");
-
-// Token managment
-
-exports.auth = ()=>{return}
-
-=======
 const tokenController = require("./tokens.controller");
 const database = require("../database/database_utils");
 
@@ -38,4 +30,3 @@ exports.auth = (req, res) => {
 
   return;
 };
->>>>>>> theo
