@@ -1,3 +1,9 @@
+body {
+
+    background-color: #000000ed;
+}
+
+
 .bg-text {
     background-image: url('https://picsum.photos/seed/picsum/200/300');
     background-size: cover;
@@ -59,3 +65,21 @@ height: 95vh;
   width: 100%;
 }
 
+.grid {
+  background: #EEE;
+}
+
+
+/* ---- grid-item ---- */
+
+.grid-item {
+  margin: 0.5rem;
+  width: 400px;
+  height: auto;
+  float: left;
+}
+
+.masonry-grigri{
+  width: 100%;
+  max-width: calc(1600px + 6rem);
+}
