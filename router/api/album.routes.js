@@ -1,10 +1,10 @@
 const AlbumRouter = require("express").Router({ mergeParams: true });
 
-const { authToken } = require("../middlewares/auth.middleware.js");
+const { authToken } = require("../../middlewares/auth.middleware.js");
 
-const albumController = require("../controllers/album.controller");
+const albumController = require("../../controllers/album.controller");
 
-const imagesController = require("../controllers/images.controller");
+const imagesController = require("../../controllers/images.controller");
 
 const imageRoutes = require("./image.routes.js");
 

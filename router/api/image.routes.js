@@ -1,8 +1,8 @@
 const ImageRouter = require("express").Router({ mergeParams: true });
 
-const { authToken } = require("../middlewares/auth.middleware.js");
+const { authToken } = require("../../middlewares/auth.middleware.js");
 
-const imageController = require("../controllers/image.controller");
+const imageController = require("../../controllers/image.controller");
 
 ImageRouter.route("/").post(
   /*authToken("admin"),*/ imageController.createImage
