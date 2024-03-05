@@ -33,6 +33,7 @@ app.use("*", (req, res) => {
     .status(404)
     .sendFile("/404.html", { root: path.join(__dirname, "public") });
 });
+
 app.use(express.static("/public"));
 
 app.listen(port, () => {
