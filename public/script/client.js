@@ -23,6 +23,7 @@ async function fetchAndDisplayImages() {
             img.src = element.download_url; // Utilise la propriété correcte de l'API
             img.className = "modal-trigger modalImage h-auto w-full rounded-lg cursor-pointer hover:scale-110 transition-transform duration-500 block";
             img.alt = "Image loaded from API";
+            img.loading = "lazy";
             img.setAttribute('data-index', index); // placé après la création de `img`
             
             const favDiv = document.createElement('div');
@@ -113,16 +114,14 @@ function addImageListeners() {
             modal.classList.remove('hidden');
         });
     });
+
+    // ferme l'image en cliquant sur la croix
     cross.addEventListener('click', function() {
-        modal.classList.add('hidden'); // ferme l'image en cliquant sur la croix
+        modal.classList.add('hidden'); 
     });
 
-
-
-
-
-
-    document.addEventListener('keydown', function(event) {
+    // fonction de navigation
+    document.addEventListener('keydown', function(event) { 
         if (event.key === 'Escape') {
             closeImageModal(); // sort de l'image plein écran en appuyant sur echap
         } else if(event.key === 'ArrowLeft'){
@@ -153,29 +152,22 @@ function showModalImage(index) {
 
 
 
-
-
-
-
-
-
-
-
-
-
+// Cache le modal
 function closeImageModal() {
      const modal = document.getElementById('imageModal');
-     modal.classList.add('hidden'); // Cache le modal
+     modal.classList.add('hidden'); 
 
  }
 
+ // Empêche l'événement de se propager au modal lui-même
  function previousImage(event){
-        event.stopPropagation(); // Empêche l'événement de se propager au modal lui-même
+        event.stopPropagation(); 
         navigateModal(-1); 
  }
 
+ // Empêche l'événement de se propager au modal lui-même
  function nextImage(event){
-    event.stopPropagation(); // Empêche l'événement de se propager au modal lui-même
+    event.stopPropagation(); 
     navigateModal(1); 
 }
 
