@@ -5,6 +5,10 @@ const { validateUser, validateAdmin } = require("../validators/user.validator.js
 const tokenController = require("../controllers/tokens.controller.js")
 const { getAdminCredentials } = require("../database/database_utils.js");
 
+const renderOptions = {
+  PAGE_TITLE: "Login"
+}
+
 /**
  * Auth the bearer token
  * @param {String} type Type of the auth "render" for views routing and "api" for api routes
@@ -36,19 +40,19 @@ exports.auth = (type="render", permission = "album") => {
 function adminAuth(req, res, next)
 {
   // Check if the admin is already logged in
-  if(!req.session.authToken) return res.render("admin_login");
+  if(!req.session.authToken) return res.render("admin_login", renderOptions);
 
   // Read the token data
   const tokenData = tokenController.readAdminToken(req.session.authToken);
   if(tokenData.err){
     console.error(err)
-    return res.render('admin_login')
+    return res.render('admin_login', renderOptions)
   }
 
   // Check if the token data is valid
   const data = getAdminCredentials(tokenData.uuid);
   if(data == {}){
-    return res.render('admin_login');
+    return res.render('admin_login', renderOptions);
   }else{
     return next();
   }
@@ -64,19 +68,19 @@ function adminAuth(req, res, next)
 function albumAuth(req, res, next)
 {
   // Check if the admin is already logged in
-  if(!req.session.authToken) return res.render("album_login");
+  if(!req.session.authToken) return res.render("album_login", renderOptions);
 
   // Read the token data
   const tokenData = tokenController.readAccessToken(req.session.authToken);
   if(tokenData.err){
     console.error(err)
-    return res.render('album_login')
+    return res.render('album_login', renderOptions)
   }
 
   // Check if the token data is valid
   const data = getCredentials(tokenData.uuid);
   if(data == {}){
-    return res.render('album_login');
+    return res.render('album_login', renderOptions);
   }else{
     return next();
   }

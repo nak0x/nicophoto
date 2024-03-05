@@ -37,6 +37,10 @@ app.use("/", viewsRouter);
 app.use("/api", apiRouteur);
 app.use("/public", express.static("public"));
 
+app.use("/", (req, res)=>{
+  res.render("projethomepage")
+})
+
 app.use("*", (req, res) => {
   res
     .status(404)
