@@ -6,19 +6,19 @@ let imageUrls = [];
 async function fetchAndDisplayImages() {
     try {
        
-        const result = await fetchData("https://picsum.photos/v2/list", "GET");
+        // const result = await fetchData("https://picsum.photos/v2/list", "GET");
         const grid = document.getElementById('photo-grid');
 
 
-        result.forEach( async (element, index) => {
-            const imgDiv = await createImageElement(element, index);
-            const favDiv = createFavoriteDiv(element.download_url, index);
-            const checkbox = createCheckbox(index);
-            imgDiv.appendChild(favDiv); // Ajoute l'icône de favori à imgDiv
-            grid.appendChild(imgDiv); // Ajoute directement imgDiv à #photo-grid
-            imgDiv.appendChild(checkbox); // Ajoute checkbox
+        // result.forEach( async (element, index) => {
+        //     const imgDiv = await createImageElement(element, index);
+        //     const favDiv = createFavoriteDiv(element.download_url, index);
+        //     const checkbox = createCheckbox(index);
+        //     imgDiv.appendChild(favDiv); // Ajoute l'icône de favori à imgDiv
+        //     grid.appendChild(imgDiv); // Ajoute directement imgDiv à #photo-grid
+        //     imgDiv.appendChild(checkbox); // Ajoute checkbox
 
-        });
+        // });
         
         // Initialisation de Masonry après l'ajout des images
         var msnry = new Masonry('#photo-grid', {
@@ -146,23 +146,23 @@ function navigateModal(direction) {
 
 // creation d'images pour fun async
 
-async function createImageElement(element, index) {
-    const imgDiv = document.createElement('div');
-    imgDiv.className = "h-fit overflow-hidden rounded-lg relative grid-item w-1/5";
+// async function createImageElement(element, index) {
+//     const imgDiv = document.createElement('div');
+//     imgDiv.className = "h-fit overflow-hidden rounded-lg relative grid-item w-1/5";
 
-    const img = document.createElement('img');
-    img.src = element.download_url; // Utilise la propriété correcte de l'API
-    img.className = "modal-trigger modalImage h-auto w-full rounded-lg cursor-pointer hover:scale-110 transition-transform duration-500 block ";
-    img.alt = "Image loaded from API";
-    img.loading = "lazy";
-    img.setAttribute('data-index', index);
+//     const img = document.createElement('img');
+//     img.src = element.download_url; // Utilise la propriété correcte de l'API
+//     img.className = "modal-trigger modalImage h-auto w-full rounded-lg cursor-pointer hover:scale-110 transition-transform duration-500 block ";
+//     img.alt = "Image loaded from API";
+//     img.loading = "lazy";
+//     img.setAttribute('data-index', index);
 
-    imgDiv.appendChild(img);
+//     imgDiv.appendChild(img);
 
 
     
-    return imgDiv;
-}
+//     return imgDiv;
+// }
 // fin créations images
 
 // Fonction pour créer un élément de favori (favDiv) pour func async
