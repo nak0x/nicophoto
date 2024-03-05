@@ -28,7 +28,7 @@ DateAlbumCarte
       <!-- Début de la carte -->
       <% ListAlbum.forEach(element => { %>
         <div class="relative flex justify-center items-center border-2 border-white rounded-lg overflow-hidden max-w-80 w-full h-48 ">
-          <img src="<%= image %>" alt="<%= nomimage %>" class="w-full h-full object-cover object-center">
+          <img src="data:image/webp;base64,<%= image %>" alt="<%= nomimage %>" class="w-full h-full object-cover object-center">
           <div class="absolute bottom-0 left-0 right-0 p-3 bg-white bg-opacity-75 backdrop-filter backdrop-blur-lg">
             <p class="text-lg font-semibold"><%= TitleAlbumCarte %></p>
             <p class="text-sm opacity-70"><%= DateAlbumCarte %></p>
