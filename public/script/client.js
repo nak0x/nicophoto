@@ -49,43 +49,8 @@ document.addEventListener('DOMContentLoaded', fetchAndDisplayImages);
 
 
 
-function toggleFavorite(imageUrl, index) {
-    
-    // Récupère le tableau des favoris depuis localStorage, ou initialise un tableau vide si aucun favori n'est trouvé
-    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    // Trouve l'élément SVG de l'icône de favori basé sur l'index
-    const svgIcon = document.querySelector(`#add-fav-image-${index} svg`);
 
-    // Vérifie si l'URL de l'image est déjà dans le tableau des favoris
-    const isFavorite = favorites.includes(imageUrl);
 
-    if (isFavorite) {
-        // Si l'image est déjà un favori, la retire du tableau et supprime la classe 'active'
-        favorites = favorites.filter(url => url !== imageUrl);
-        svgIcon.classList.remove('active');
-    } else {
-        // Si l'image n'est pas un favori, l'ajoute au tableau et applique la classe 'active'
-        favorites.push(imageUrl);
-        svgIcon.classList.add('active');
-    }
-
-    // Met à jour le tableau des favoris dans localStorage
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-}
-
-// Fonction pour mettre à jour l'état visuel des favoris
-function updateFavoriteVisualState() {
-    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    document.querySelectorAll('.modalImage').forEach((img) => {
-        const imageUrl = img.getAttribute('src');
-        const favIcon = img.nextElementSibling.querySelector('.favorite-icon');
-        if (favorites.includes(imageUrl)) {
-            favIcon.classList.add('active');
-        } else {
-            favIcon.classList.remove('active');
-        }
-    });
-}
 
 
 
@@ -190,8 +155,43 @@ function navigateModal(direction) {
 }
 
 
+// // Creation des colonnes et images pour func async
 
-// Fonction pour créer un élément de favori (favDiv)
+// function initializeGridColumns(grid, columnCount) {
+//     const columns = Array.from({ length: columnCount }, () => document.createElement('div'));
+//     columns.forEach(column => {
+//         column.className = 'grid gap-4 h-fit';
+//         grid.appendChild(column);
+//     });
+// }
+
+// function createImageDiv(element, index) {
+//     const imgDiv = document.createElement('div');
+//     imgDiv.className = "h-fit overflow-hidden rounded-lg relative";
+
+//     const img = document.createElement('img');
+//     img.src = element.download_url;
+//     img.className = "modal-trigger modalImage h-auto w-full rounded-lg cursor-pointer hover:scale-110 transition-transform duration-500 block";
+//     img.alt = "Image loaded from API";
+//     img.loading = "lazy";
+//     img.setAttribute('data-index', index);
+
+//     imgDiv.appendChild(img);
+//     imgDiv.appendChild(createFavoriteDiv(element.download_url, index)); // Supposons que cette fonction existe déjà
+
+//     return imgDiv;
+// }
+
+// function assignImageToColumn(imgDiv, index, columnCount) {
+//     const grid = document.getElementById('photo-grid');
+//     grid.children[index % columnCount].appendChild(imgDiv);
+// }
+
+
+// // fin création images et colonnes
+
+
+// Fonction pour créer un élément de favori (favDiv) pour func async
 function createFavoriteDiv(imageUrl, index) {
     const favDiv = document.createElement('div');
     favDiv.className = "absolute top-0 right-0 p-2"; // Positionne l'icône en haut à droite
@@ -225,4 +225,46 @@ function createFavoriteDiv(imageUrl, index) {
     });
 
     return favDiv;
+}
+
+// fin favoris
+
+
+function toggleFavorite(imageUrl, index) {
+    
+    // Récupère le tableau des favoris depuis localStorage, ou initialise un tableau vide si aucun favori n'est trouvé
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    
+    // Trouve l'élément SVG de l'icône de favori basé sur l'index
+    const svgIcon = document.querySelector(`#add-fav-image-${index} svg`);
+
+    // Vérifie si l'URL de l'image est déjà dans le tableau
+    const isFavorite = favorites.includes(imageUrl);
+
+    if (isFavorite) {
+        // Si l'image est déjà un favori, la retire du tableau et supprime classe active
+        favorites = favorites.filter(url => url !== imageUrl);
+        svgIcon.classList.remove('active');
+    } else {
+        // Si l'image n'est pas un favori, l'ajoute au tableau et classe active
+        favorites.push(imageUrl);
+        svgIcon.classList.add('active');
+    }
+
+    // Met à jour le tableau des favoris dans localStorage
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+}
+
+// Fonction pour mettre à jour l'état visuel des favoris
+function updateFavoriteVisualState() {
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    document.querySelectorAll('.modalImage').forEach((img) => {
+        const imageUrl = img.getAttribute('src');
+        const favIcon = img.nextElementSibling.querySelector('.favorite-icon');
+        if (favorites.includes(imageUrl)) {
+            favIcon.classList.add('active');
+        } else {
+            favIcon.classList.remove('active');
+        }
+    });
 }
