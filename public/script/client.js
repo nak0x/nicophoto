@@ -4,6 +4,7 @@ let imageUrls = [];
 
 async function fetchAndDisplayImages() {
     try {
+       
         const result = await fetchData("https://picsum.photos/v2/list", "GET");
         const grid = document.getElementById('photo-grid');
         const columnCount = 4; // Nombre de colonnes
@@ -35,6 +36,7 @@ async function fetchAndDisplayImages() {
             `;
 
             favDiv.querySelector('.add-fav-image').addEventListener('click', function(event) {
+                event.preventDefault(); // Empêche le comportement par défaut du lien
                 event.stopPropagation(); // Empêche l'événement de cliquer sur l'image elle-même
                 toggleFavorite(imageUrls[index], index);
             });
@@ -44,7 +46,10 @@ async function fetchAndDisplayImages() {
             columns[index % columnCount].appendChild(imgDiv);
         });
         addImageListeners();
-        setupNavigation(); 
+        setupNavigation();
+        
+         
+        updateFavoriteVisualState(); // Met à jour l'état visuel des favoris après l'affichage des images
     } catch (error) {
         console.error('Error:', error);
     }
@@ -52,24 +57,49 @@ async function fetchAndDisplayImages() {
 
 document.addEventListener('DOMContentLoaded', fetchAndDisplayImages);
 
+
+
 function toggleFavorite(imageUrl, index) {
+    
+    // Récupère le tableau des favoris depuis localStorage, ou initialise un tableau vide si aucun favori n'est trouvé
     let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    console.log(favorites);
-    const isFavorite = favorites.includes(imageUrl);
+    // Trouve l'élément SVG de l'icône de favori basé sur l'index
     const svgIcon = document.querySelector(`#add-fav-image-${index} svg`);
 
+    // Vérifie si l'URL de l'image est déjà dans le tableau des favoris
+    const isFavorite = favorites.includes(imageUrl);
+
     if (isFavorite) {
-        // Retirer des favoris
+        // Si l'image est déjà un favori, la retire du tableau et supprime la classe 'active'
         favorites = favorites.filter(url => url !== imageUrl);
-        svgIcon.classList.add('active');
-    } else {
-        // Ajouter aux favoris
-        favorites.push(imageUrl);
         svgIcon.classList.remove('active');
+    } else {
+        // Si l'image n'est pas un favori, l'ajoute au tableau et applique la classe 'active'
+        favorites.push(imageUrl);
+        svgIcon.classList.add('active');
     }
 
+    // Met à jour le tableau des favoris dans localStorage
     localStorage.setItem('favorites', JSON.stringify(favorites));
 }
+
+// Fonction pour mettre à jour l'état visuel des favoris
+function updateFavoriteVisualState() {
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    document.querySelectorAll('.modalImage').forEach((img) => {
+        const imageUrl = img.getAttribute('src');
+        const favIcon = img.nextElementSibling.querySelector('.favorite-icon');
+        if (favorites.includes(imageUrl)) {
+            favIcon.classList.add('active');
+        } else {
+            favIcon.classList.remove('active');
+        }
+    });
+}
+
+
+
+// Assurez-vous que cette nouvelle fonction est appelée lors du chargement de la page
 function addImageListeners() {
     const images = document.querySelectorAll('.modal-trigger');
     const modal = document.getElementById('imageModal');
@@ -86,6 +116,11 @@ function addImageListeners() {
     cross.addEventListener('click', function() {
         modal.classList.add('hidden'); // ferme l'image en cliquant sur la croix
     });
+
+
+
+
+
 
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
@@ -111,10 +146,22 @@ function showModalImage(index) {
         dlImage.href = imageUrls[index]; // set l'adresse url du lien en fonction de l'image actuel
         dlImage.setAttribute('data-index', index);
 
-        favButton.onclick = () => toggleFavorite(imageUrl); // Ajoute l'image aux favoris ou la supprime
+        // favButton.onclick = () => toggleFavorite(imageUrls[index], index); // Ajoute l'image aux favoris ou la supprime
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 function closeImageModal() {
      const modal = document.getElementById('imageModal');
@@ -131,6 +178,11 @@ function closeImageModal() {
     event.stopPropagation(); // Empêche l'événement de se propager au modal lui-même
     navigateModal(1); 
 }
+
+
+
+
+
 
 
  function setupNavigation() {
