@@ -8,3 +8,52 @@
     max-height: 100vh !important;
   }
   
+
+
+/* Gestion des icones  */
+#prevImage:hover .navigation-arrow,
+#nextImage:hover .navigation-arrow
+{
+  transform:scale(1.5);
+
+}
+
+#prevImage, #nextImage {
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+
+  padding: 80px 10px; /* Ajustez selon vos besoins */
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+#navBarImg {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+#closeModal:hover .cross-close, #dl-img:hover .download-icon, #fav-img:hover .favorite-icon{
+  transform:scale(1.2);
+
+}
+.navigation-arrow, .cross-close, .download-icon, .favorite-icon {
+  transition: transform 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+#modalImage {
+height: 95vh;
+}
+
+.favorite-icon {
+  stroke: white; /* Couleur par défaut */
+  transition: stroke 0.3s ease; /* Transition pour un changement de couleur fluide */
+}
+
+.active {
+  fill: red !important; /* Couleur lorsque l'icône est un favori */
+}
+
+
+
+

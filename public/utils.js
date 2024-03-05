@@ -1,4 +1,8 @@
-async function fetchData(url, method, data) {
+async function fetchData(searchUrl, method, data) {
+    let url = '';
+    if (searchUrl.includes('http')) url = searchUrl;
+    else url = BASE_URL + searchUrl;
+
     try {
         const response = await fetch(url, {
             method,
@@ -18,4 +22,4 @@ async function fetchData(url, method, data) {
         throw error;
     }
 }
-
+const BASE_URL = 'http://localhost:8000/api';
