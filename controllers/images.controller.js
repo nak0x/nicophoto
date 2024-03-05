@@ -34,15 +34,7 @@ exports.getAllAlbumImages = async (req, res) => {
 
 exports.downloadImages = async (req, res) => {
   try {
-    // const uids = req.body.image_uids;
-
-    const uids = [
-      "01670944-0328-4386-a4e8-7240e2dab946",
-      "5803c246-d46b-423a-9fbd-7f747f67f8e3",
-      "64df9efa-2189-48f6-8c67-e46aa3d07b71",
-      "84bc003b-b1cc-4bae-9bfc-fa4e59d21abf",
-      "21b3c356-3787-4371-9bc7-13a0bc71c4a4",
-    ];
+    const uids = req.body.image_uids;
 
     if (!uids || !Array.isArray(uids) || uids.length === 0) {
       throw new Error("Missing or invalid UIDs");
