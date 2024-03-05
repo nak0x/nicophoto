@@ -22,5 +22,4 @@ async function fetchData(searchUrl, method, data) {
         throw error;
     }
 }
-
 const BASE_URL = 'http://localhost:8000/api';
