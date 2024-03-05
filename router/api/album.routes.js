@@ -1,3 +1,4 @@
+<<<<<<< HEAD:router/album.routes.js
 const AlbumRouter = require("express").Router({ mergeParams: true });
 
 const { authToken } = require("../middlewares/auth.middleware.js");
@@ -25,3 +26,22 @@ AlbumRouter.use("/:album_uid/images/download", imagesController.downloadImages);
 AlbumRouter.use("/:album_uid/images", imagesController.getAllAlbumImages);
 
 module.exports = AlbumRouter;
+=======
+const AlbumRouter = require("express").Router();
+
+const { authToken } = require("../../middlewares/auth.middleware.js");
+
+const albumController = require("../../controllers/album.controller.js");
+
+AlbumRouter.route("/").post(
+  /*authToken("admin"),*/ albumController.createAlbum
+);
+
+AlbumRouter.route("/:album_uid")
+  .get(/*authToken("admin"),*/ albumController.getAlbum)
+  .get(/*authToken("user"),*/ albumController.getAlbum)
+  .patch(/*authToken("admin"),*/ albumController.updateAlbum)
+  .delete(/*authToken("admin"),*/ albumController.deleteAlbum);
+
+module.exports = AlbumRouter;
+>>>>>>> theo:router/api/album.routes.js
