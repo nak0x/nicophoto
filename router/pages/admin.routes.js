@@ -1,12 +1,11 @@
 const Router = require("express").Router();
 
-Router.get('/', (req, res)=>{
-  // Send admin page
-})
+Router.get("/", (req, res) => {
+  res.render("admin_login");
+});
 
-Router.get('/create-album', (req, res)=>{
+Router.get("/create-album", (req, res) => {
   // Send create album page
-})
-
+});
 
 module.exports = Router;
