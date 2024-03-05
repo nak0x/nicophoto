@@ -180,7 +180,7 @@ exports.getAlbumByURL = async (req, res) => {
       });
     });
     // console.log(slug);
-    if (!row) res.status(404);
+    if (!row) return res.status(404).render('404');
     
     const getImagesByAlbumIdQuery = `SELECT uid FROM image WHERE album_uid = ?`;
     const getImagesByAlbumIdParam = [row.uid];
@@ -203,9 +203,10 @@ exports.getAlbumByURL = async (req, res) => {
       imageUids: imageUids.map((row) => row.uid),
     });
   } catch (error) {
-    res.send({
-      success: false,
-      error: { code: 404, message: error },
-    });
+    return res.status(404).render('404');
   }
 };
+
+exports.getAlbumUidFromSlug = async(req,res) => {
+
+}

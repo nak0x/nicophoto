@@ -1,7 +1,7 @@
 const AlbumRouter = require('express').Router();
 
-AlbumRouter.get("/", (req,res)=>{
-  // Render unique album
-})
+const { getAlbumByURL } = require("../../controllers/album.controller");
+
+AlbumRouter.get("/:album_slug", getAlbumByURL)
 
 module.exports = AlbumRouter;
