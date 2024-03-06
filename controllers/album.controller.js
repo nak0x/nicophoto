@@ -218,7 +218,7 @@ exports.renderAlbumPage = async (req, res, next) => {
     return next();
   }
 
-  res.render("temp", {
+  res.render("album", {
     albumInfos: albumInfos.data,
     imageUIDs: imageUIDs.data,
   });

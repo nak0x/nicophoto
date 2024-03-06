@@ -70,14 +70,14 @@ exports.createImage = async (req, res) => {
       } catch (error) {
         res.status(500).send({
           success: false,
-          error: { code: 500, message: error },
+          error: { code: 500, message: error.message },
         });
       }
     });
   } catch (error) {
     res.status(500).send({
       success: false,
-      error: { code: 500, message: error },
+      error: { code: 500, message: error.message },
     });
   }
 };
