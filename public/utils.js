@@ -4,13 +4,12 @@ async function fetchData(searchUrl, method, data) {
     else url = BASE_URL + searchUrl;
 
     try {
-        const response = await fetch(url, {
+        const options = {
             method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
+            body: data
+        };
+
+        const response = await fetch(url, options);
 
         if (!response.ok) {
             throw new Error('Request failed');
@@ -18,7 +17,7 @@ async function fetchData(searchUrl, method, data) {
 
         return await response.json();
     } catch (error) {
-        console.error('Erreur:', error.message);
+        console.error('Error:', error.message);
         throw error;
     }
 }

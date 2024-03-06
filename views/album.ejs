@@ -104,11 +104,6 @@ for each image on line ~~40
                     <input type="text" id="image-name" name="image-name"
                            class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm">
                 </div>
-                <!-- <div class="mt-4">
-                    <label for="image-description" class="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea id="image-description" name="image-description" rows="3"
-                              class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm"></textarea>
-                </div> -->
                 <div class="mt-4">
                     <label for="image-pin" class="block text-sm font-medium text-gray-700">Pin</label>
                     <input type="checkbox" id="image-pin" name="image-pin" class="mt-1">
@@ -206,22 +201,16 @@ form.addEventListener('submit', async (e) => {
     try{
         let formData = new FormData();
         const imageInput = document.getElementById('image'); // Assuming this is your file input element for the image
-        const nameInput = document.getElementById('image-name'); // Assuming this is your input element for the name
+        const nameInput = document.getElementById('image-name');
         const pinnedInput = document.getElementById('image-pin');
         
 
-        console.log(imageInput.files, nameInput.value, pinnedInput.checked);
-
-        formData.append('image', imageInput.files[0]); // Assuming only one image is selected
+        formData.append('image', imageInput.files[0]);
         formData.append('name', nameInput.value);
         formData.append('pinned', pinnedInput.checked ? 1 : 0);
-        for (const entry of formData.entries())
-            {
-                console.log('formdata data', entry);
-            }
-        const response = fetchData(`/album/${album_slug}/image`, "POST", formData);
+        const response = await fetchData(`/album/${album_slug}/image`, "POST", formData);
 
-        if(!response.ok) throw new Error('Failed to upload file');
+        if(!response.success) throw new Error('Failed to upload file');
 
         console.log('Successfully sent files');
     } catch(error){
@@ -231,101 +220,3 @@ form.addEventListener('submit', async (e) => {
 
 
 </script>
-
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const dropArea = document.getElementById('drop-area');
-      const fileInput = document.getElementById('file-upload');
-  
-      if (!dropArea || !fileInput) {
-        console.error('Drop area or file input not found.');
-        return;
-      }
-  
-      const uploadButton = dropArea.querySelector('label[for="file-upload"]');
-      uploadButton.addEventListener('click', () => {
-        fileInput.click();
-        document.getElementById('image-details-form').classList.remove('hidden');
-      });
-  
-      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName, preventDefaults, false);
-      });
-  
-      function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-  
-      ['dragenter', 'dragover'].forEach(eventName => {
-        dropArea.addEventListener(eventName, highlight, false);
-      });
-  
-      ['dragleave', 'drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName, unhighlight, false);
-      });
-  
-      function highlight() {
-        dropArea.classList.add('highlight');
-      }
-  
-      function unhighlight() {
-        dropArea.classList.remove('highlight');
-      }
-  
-      dropArea.addEventListener('drop', handleDrop, false);
-
-
-  
-      function handleDrop(e) {
-        console.log(e);
-        setTimeout(() => {
-            console.log(e);
-        }, 1000)
-        const dt = e.dataTransfer;
-        console.log("tranfered data: ", dt);
-        const files = dt.files;
-        console.log("files: ", files);
-  
-        handleFiles(files);
-
-        document.getElementById('image-details-form').classList.remove('hidden');
-      }
-  
-
-
-      function handleFiles(files) {
-        if (!files || files.length === 0) {
-          console.error('No files selected.');
-          return;
-        }
-        
-        fileInput.files = files;
-        uploadFile(fileInput.files[0]);
-        console.log('files')
-      }
-  
-      async function uploadFile(file) {
-        const formData = new FormData();
-        formData.append('imageFile', file);
-  
-        try {
-            const url = window.location.href;
-            const parts = url.split('/');
-            const albumSlug = parts[parts.length - 1];
-          const response = await fetch('/:album_slug/images/', {
-            method: 'POST',
-            body: formData
-          });
-
-          
-  
-          console.log(response);
-          const data = await response.json();
-        } catch (error) {
-          console.error('Error uploading image:', error);
-        }
-      }
-    });
-  </script>
-   -->
