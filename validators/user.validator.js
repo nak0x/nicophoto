@@ -3,55 +3,39 @@ const Bcrypt = require("bcrypt");
 const { getCredentials, getAdminCredentials } = require("../database/database_utils")
 
 // User access to album validation object
+/* 
+{
+  uid: 'b21b907a-6d2a-4cdf-8628-57d90d2f0ff3',
+  title: 'My test album',
+  url: 'this-is-a-test',
+  password: '$2b$10$nEkQ4drq9QDHIIsvxFeyE.8JWCGyWAcXIJjA1ZnQwxnxDqXMIABvG',
+  description: 'ojdzaiojd zaj dijzaijd ziajid jzaidjiazj ',
+  date: '2024-04-10',
+  iat: 1709721531,
+  exp: 1709725131
+}
+*/
 const userValidation = Joi.object({
-  albumId: Joi
-    .string()
-    .required()
-    .custom(async (albumId, helper)=>{
-      let credentials = await getCredentials(albumId);
-      if(credentials == {}){
-        helper.error("any.invalid")
-        return helper.message("The album seems to not exist")
-      }
-      return albumId;
-    }),
-    pass: Joi
-    .string()
-    .required()
-    .custom(async (encryptedPass, helper)=>{
-      let credentials = await getCredentials(albumId);
-      if(credentials != {} && encryptedPass == credentials.pass) {
-        return credentials.pass
-      }
-      helper.message('Wrong password')
-      return helper.error("any.invalid")
-    })
+  uid: Joi.string().required(),
+  title: Joi.string().required(),
+  url: Joi.string().required(),
+  password: Joi.string().required(),
+  description: Joi.string().required(),
+  date: Joi.string().required(),
+  iat: Joi.number(),
+  exp: Joi.number()
 })
 
 // Admin access validation object
 const adminValidation = Joi.object({
   login_id: Joi
     .string()
-    .required()
-    .custom(async (login_id, helper)=> {
-      let admin = await getAdminCredentials(login_id);
-      if(admin == {}){
-        helper.message("The album seems to not exist")
-        return helper.error("any.invalid")
-      }
-      return login_id;
-    }),
+    .required(),
   pass: Joi
     .string()
-    .required()
-    .custom(async (pass, helper)=> {
-      let admin = await getAdminCredentials(login_id);
-      if(admin == {} && pass == admin.pass){
-        return admin.pass
-      }
-      helper.error("any.invalid")
-      return helper.message("The album seems to not exist")
-    })
+    .required(),
+  iat: Joi.number(),
+  exp: Joi.number()
 })
 
 exports.validateUser = async (decodedJwt)=>{

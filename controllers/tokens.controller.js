@@ -2,19 +2,19 @@
 
 const jwt = require("jsonwebtoken");
 
-exports.genUserToken = async (user) => {
+exports.genAccessToken = (user) => {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "1h"});
 };
 
-exports.genAdminToken = async (admin) => {
-  return jwt.sign(admin, proccess.env.ADMIN_TOKEN_SECRET, {expiresIn: '1h'});
+exports.genAdminToken = (admin) => {
+  return jwt.sign(admin, process.env.ADMIN_TOKEN_SECRET, {expiresIn: '1h'});
 }
 
-exports.genRenewToken = async (user) => {
+exports.genRenewToken = (user) => {
   return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "1h"});
 }
 
-exports.readAdminToken = async (token) => {
+exports.readAdminToken = (token) => {
   try{
     return jwt.verify(token, process.env.ADMIN_TOKEN_SECRET);
   }catch(err){
@@ -22,7 +22,7 @@ exports.readAdminToken = async (token) => {
   }
 }
 
-exports.readAccessToken = async (token) => {
+exports.readAccessToken = (token) => {
   try{
     return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
   }catch(err){
@@ -30,7 +30,7 @@ exports.readAccessToken = async (token) => {
   }
 }
 
-exports.readRenewToken = async (token) => {
+exports.readRenewToken = (token) => {
   try{
     return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
   }catch(err){

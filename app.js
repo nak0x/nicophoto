@@ -18,6 +18,7 @@ insertAdmin(process.env.ADMIN_LOGIN, process.env.ADMIN_PASS);
 const apiRouteur = require("./router/index.routes");
 const viewsRouter = require("./router/views.routes");
 const internal = require("stream");
+const { log } = require("console");
 
 // App def
 const port = process.env.PORT || 3000;
@@ -33,13 +34,18 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  console.log(req.session);
+  next();
+});
+
 app.use("/", viewsRouter);
 app.use("/api", apiRouteur);
 app.use("/public", express.static("public"));
 
-app.use("/", (req, res)=>{
-  res.render("projethomepage")
-})
+app.use("/", (req, res) => {
+  res.render("projethomepage");
+});
 
 app.use("*", (req, res) => {
   res

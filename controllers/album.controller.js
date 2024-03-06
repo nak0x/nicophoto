@@ -2,6 +2,7 @@ const slugify = require("slugify");
 const Database = require("../database/database");
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
+const bcrypt = require('bcrypt');
 
 const {
   albumSchemaPost,
@@ -25,7 +26,7 @@ exports.createAlbum = async (req, res, next) => {
       uuidv4(),
       body.title,
       body.description,
-      body.password,
+      await bcrypt.hash(body.password, 10),
       body.date,
       body.url
         ? slugify(body.url, { lower: true })
