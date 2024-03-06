@@ -9,19 +9,19 @@ const imagesController = require("../../controllers/images.controller.js");
 const imageRoutes = require("./image.api.routes.js");
 
 AlbumRouter.route("/").post(
-  auth('api', 'admin'), albumController.createAlbum
+  /*auth('api', 'admin'),*/ albumController.createAlbum
 );
 
 AlbumRouter.route("/:album_uid")
-  .get(auth('api', 'admin'), albumController.getAlbum)
-  .get(auth('api'), albumController.getAlbum)
-  .patch(auth('api', 'admin'), albumController.updateAlbum)
-  .delete(auth('api', 'admin'), albumController.deleteAlbum);
+  .get(/*auth('api', 'admin'), */ albumController.getAlbum)
+  .get(/*auth('api'), */ albumController.getAlbum)
+  .patch(/*auth('api', 'admin'), */ albumController.updateAlbum)
+  .delete(/*auth('api', 'admin'), */ albumController.deleteAlbum);
 
 AlbumRouter.use("/:album_uid/image", imageRoutes);
 
 AlbumRouter.use("/:album_uid/images/download", imagesController.downloadImages);
 
-AlbumRouter.use("/:album_uid/images", imagesController.getAllAlbumImages);
+// AlbumRouter.use("/:album_uid/images", imagesController.getAllAlbumImages);
 
 module.exports = AlbumRouter;
