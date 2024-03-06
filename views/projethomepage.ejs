@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nicophoto</title>
+  </head>
+  <body>
+    <setion class="hero">
+      <h1 class="title">Nicophoto</h1>
+      <p class="desc">
+        Nicophoto is a tool for photographers to share they images to theirs
+        clients
+      </p>
+    </setion>
+    <section class="client-redirect">
+      <div class="text-container">
+        <h3>I want to see my images</h3>
+      </div>
+      <div class="slug-input-container">
+        <input type="text" id="redirect-slug" />
+        <button onclick="redirectToImages()">Voir mes photos</button>
+      </div>
+    </section>
+    <script>
+      function redirectToImages() {
+        window.location = `/${document.getElementById("redirect-slug").value}`;
+      }
+    </script>
+  </body>
+</html>

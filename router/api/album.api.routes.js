@@ -13,10 +13,10 @@ AlbumRouter.route("/").post(
 );
 
 AlbumRouter.route("/:album_uid")
-  .get(/*auth('api', 'admin'), */ albumController.getAlbum)
-  .get(/*auth('api'), */ albumController.getAlbum)
-  .patch(/*auth('api', 'admin'), */ albumController.updateAlbum)
-  .delete(/*auth('api', 'admin'), */ albumController.deleteAlbum);
+  // .get(auth("api", "admin"), albumController.getAlbum)
+  .get(auth("api"), albumController.getAlbum)
+  .patch(auth("api", "admin"), albumController.updateAlbum)
+  .delete(auth("api", "admin"), albumController.deleteAlbum);
 
 AlbumRouter.use("/:album_uid/image", imageRoutes);
 

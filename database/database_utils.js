@@ -55,40 +55,20 @@ exports.insertAdmin = async (login_id, password) => {
 };
 
 /**
- * Get all datas from albums from the uid
- * @param {String} uid Get the uid of the album
- * @returns {Object} The album object
- */
-exports.selectAlbumWithPhotos = async (uid) => {
-  try {
-    const album = await db.get(`SELECT * FROM album WHERE uid = ?`, [uid]);
-    const photos = await db.all(`SELECT * FROM image WHERE album_uid = ?`, [
-      album.id,
-    ]);
-    return { album, photos };
-  } catch (err) {
-    return {};
-  }
-};
-
-/**
  * Get the credentials of an album by its ID
  * @param {Number} id - The ID of the album
  * @returns {Object} - The credentials object containing the ID and password of the album or an empty object if the album id doesn't exist.
  */
 exports.getCredentials = async (id) => {
   try {
-    const album = await db.get(`SELECT * FROM album WHERE id = ?`, [id]);
-    if (album) {
-      return {
-        id: album.id,
-        pass: album.pass,
-      };
-    } else {
-      return {};
-    }
-  } catch (err) {
-    console.error(err);
+    db.all(`SELECT * FROM album WHERE uid = ?`, [id], (err, rows) => {
+      if (err) {
+        throw new Error(err);
+      }
+      return rows[0];
+    });
+  } catch (error) {
+    console.error(error);
     return {};
   }
 };
@@ -100,18 +80,48 @@ exports.getCredentials = async (id) => {
  */
 exports.getAdminCredentials = async (id) => {
   try {
-    const admin = await db.get(`SELECT * FROM admins WHERE login_id = ?`, [id]);
-    if (admin) {
-      return {
-        id: admin.id,
-        pass: admin.pass,
-      };
-    } else {
-      console.error(`Try to reach the admin ${id}, but the admin does not exist`)
-      return {};
-    }
+    db.all(`SELECT * FROM album WHERE uid = ?`, [id], (err, rows) => {
+      if (err) {
+        throw new Error(err);
+      }
+      return rows[0];
+    });
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+};
+
+exports.fuzzyFindEntityByUniqueId = async (id) => {
+  try {
+    let data = {
+      admin: undefined,
+      album: undefined,
+      error: false,
+    };
+
+    data.admin = await new Promise((res, rej) => {
+      db.all("SELECT * FROM admins WHERE login_id = ?", [id], (err, rows) => {
+        if (err) {
+          rej(err);
+        }
+        res(rows[0]);
+      });
+    });
+
+    data.album = await new Promise((res, rej) => {
+      db.all("SELECT * FROM album WHERE uid = ?", [id], (err, rows) => {
+        if (err) {
+          rej(err);
+        }
+        res(rows[0]);
+      });
+    });
+
+    return data;
   } catch (err) {
     console.error(err);
-    return {};
+    a;
+    return { error: true };
   }
 };
