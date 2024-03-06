@@ -79,7 +79,7 @@ height: 95vh;
   float: left;
 }
 
-.masonry-grigri{
+.masonry-grigri, .masonry-grigri2{
   width: 100%;
   max-width: calc(1600px + 6rem);
 }

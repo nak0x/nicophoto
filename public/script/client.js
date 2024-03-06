@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagesLoaded(grid, ()=>{
             msnry.layout();
         })
+
   
 
         
@@ -31,8 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         addImageListeners();
         setupNavigation(); 
         updateFavoriteVisualState(); // Met à jour l'état visuel des favoris après l'affichage des images
-        moveFavorites(); // Déplace les éléments en fonction du localStorage
-
     
 })
 
@@ -203,28 +202,19 @@ function updateFavoriteVisualState() {
     });
 }
 
-function moveFavorites() {
-    // Récupère le tableau des favoris depuis le localStorage
-    const favoritesIndices = JSON.parse(localStorage.getItem('favorites') || '[]');
-    
-    // Sélectionne la div où placer les favoris
-    const favoritesDiv = document.getElementById('favoritesContainer');
-    
-    // Nettoie la div des favoris pour éviter les doublons
-    favoritesDiv.innerHTML = '';
-    
-    // Parcourt chaque indice dans le tableau des favoris
-    favoritesIndices.forEach(index => {
-        // Trouve l'image correspondante dans le DOM par son attribut data-index
-        const imageElement = document.querySelector(`.modalImage[data-index='${index}']`).parentNode.cloneNode(true);
-        
-        // Ajoute l'élément cloné à la div des favoris
-        if (imageElement) {
-            favoritesDiv.appendChild(imageElement);
-        }
-    });
 
-    // réinitialiser Masonry pour organiser les éléments déplacés
-    msnry.layout();
+function getFavorites() {
+    // favorites existe dans le localStorage
+    if(localStorage.getItem('favorites')) {
+        // Récup 'favorites' converti en tableau et retourner
+        return JSON.parse(localStorage.getItem('favorites'));
+    } else {
+        // Si 'favorites' n'existe pas, retourner un tableau vide
+        console.log('Aucun favori trouvé.');
+        return [];
+    }
 }
 
+// Utilisation de la fonction
+const favorites = getFavorites();
+console.log(favorites); // Affichera vos favoris ou un tableau vide
