@@ -42,8 +42,10 @@ exports.createImage = async (req, res) => {
           throw new Error("Error uploading image");
         }
 
-        const preview = await compressImage(req.file.path);
+        if(!req.file) throw new Error("No file uploaded");
 
+        const preview = await compressImage(req.file.path);
+        console.log('Image compressed')
         const mime_type = req.file.mimetype;
 
         const query =
@@ -66,18 +68,20 @@ exports.createImage = async (req, res) => {
           });
         });
 
-        res.send("Image created");
+        res.send({
+          success: true
+        });
       } catch (error) {
         res.status(500).send({
           success: false,
-          error: { code: 500, message: error },
+          error: { code: 500, message: error.message },
         });
       }
     });
   } catch (error) {
     res.status(500).send({
       success: false,
-      error: { code: 500, message: error },
+      error: { code: 500, message: error.message },
     });
   }
 };
@@ -100,10 +104,15 @@ exports.getImage = async (req, res) => {
       throw new Error("Image not found");
     }
 
-    res.send({
-      success: true,
-      data: row,
-    });
+    if (req.query.url) {
+      res.setHeader("Content-Type", "image/webp");
+      res.send(Buffer.from(row.preview, "base64"));
+    } else {
+      res.send({
+        success: true,
+        data: row,
+      });
+    }
   } catch (error) {
     res.status(404).send({
       success: false,
