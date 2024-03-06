@@ -218,3 +218,29 @@ function getFavorites() {
 // Utilisation de la fonction
 const favorites = getFavorites();
 console.log(favorites); // Affichera vos favoris ou un tableau vide
+
+
+// <%  async function  getImageUrl(imageUID, albumUID) {
+//     const image = await fetchData(`/album/${albumUID}/image/${imageUID}`, 'GET', {})
+//     return "data:image/webp;base64," + image.preview
+//  } %>
+
+// Fonction côté client pour récupérer une image
+async function getImageUrl(imageUID, albumUID) {
+    try {
+        const response = await fetch(`/album/${albumUID}/image/${imageUID}`);
+        const image = await response.json(); // Assumer que le serveur renvoie un JSON
+        return "data:image/webp;base64," + image.preview;
+    } catch (error) {
+        console.error("Erreur lors de la récupération de l'image:", error);
+    }
+}
+
+// Utilisation de la fonction pour mettre à jour la source d'une image
+async function updateImageSource(imageElementId, imageUID, albumUID) {
+    const imageUrl = await getImageUrl(imageUID, albumUID);
+    const imageElement = document.getElementById(imageElementId);
+    if (imageElement) {
+        imageElement.src = imageUrl;
+    }
+}
