@@ -1,4 +1,4 @@
-const AlbumRouter = require('express').Router();
+const AlbumRouter = require("express").Router();
 
 AlbumRouter.get("/test", (req,res)=>{
   res.render("client", {
@@ -35,11 +35,13 @@ AlbumRouter.get("/test", (req,res)=>{
   })
 })
 // Middlewares
-const {auth} = require("../../middlewares/auth.middleware")
+const { auth } = require("../../middlewares/auth.middleware");
 
 // Controllers
-const { getAlbumByURL } = require("../../controllers/album.controller");
+const {
+  renderAlbumPageByAlbumURL,
+} = require("../../controllers/album.controller");
 
-AlbumRouter.get("/:album_slug", auth('render'), getAlbumByURL)
+AlbumRouter.get("/:albumURL", /*auth("render"),*/ renderAlbumPageByAlbumURL);
 
 module.exports = AlbumRouter;
