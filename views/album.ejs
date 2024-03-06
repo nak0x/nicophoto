@@ -8,9 +8,13 @@ for each image on line ~~40
 -->
 
 <header class="bg-white shadow flex justify-between items-center">
-<div class="max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-  <h1 class="text-3xl font-bold tracking-tight text-gray-900"><%- albumInfos.title -%></h1>
-</div>
+    <div class="max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900"><%- albumInfos.title -%></h1>
+    </div>
+    <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mr-4" type="button" id="openButton">
+        Modifier le dossier
+    </button>
 </header>
 
 <main>
@@ -28,7 +32,7 @@ for each image on line ~~40
                             @dragleave="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
                             @drop="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
                             title="" />
-                
+
                         <div class="flex flex-col items-center justify-center py-10 text-center">
                             <svg class="w-6 h-6 mr-1 text-current-50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -126,12 +130,77 @@ for each image on line ~~40
 <script src="./public/script/masonry.pkgd.min.js"></script>
 
 
+<!-- add components image here -->
+<!-- Folder creation modal -->
+<div id="folder-creation-modal" tabindex="-1" aria-hidden="true" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-transform hidden">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Create Folder
+          </h3>
+          <button type="button"
+          id="closeButton"
+            class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            data-modal-hide="folder-creation-modal">
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="p-4 md:p-5">
+
+          <!-- FORM-->
+          <form class="space-y-4" id="CreateAlbumForm">
+            <div>
+              <label for="folder-title"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titre</label>
+              <input type="text" name="folder-title" id="folder-title"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="Enter title" required>
+            </div>
+            <div>
+              <label for="folder-description"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+              <textarea name="folder-description" id="folder-description" rows="4"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg max-w-screen focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white min-h-11 max-h-32"
+                placeholder="Enter description" required></textarea>
+            </div>
+            <div>
+              <label for="folder-date"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+              <input type="date" name="folder-date" id="folder-date"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                required>
+            </div>
+            <div>
+              <label for="folder-password" 
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+              <input type="password" name="folder-password" id="folder-password" 
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Enter password" required>
+            </div>
+            <button type="submit"
+              class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              Crée Album</button>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+<script src="../public/script/admin.script.js"></script>
+<script src="../public/utils.js"></script>
+<%- include('layout/footer') -%>
 
 
 
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 <script src="https://unpkg.com/create-file-list"></script>
-<script src="../public/utils.js"></script>
 <script>
 function dataFileDnD() {
     return {
@@ -201,7 +270,7 @@ form.addEventListener('submit', async (e) => {
     e.preventDefault();
     try{
         let formData = new FormData();
-        const imageInput = document.getElementById('image'); // Assuming this is your file input element for the image
+        const imageInput = document.getElementById('image');
         const nameInput = document.getElementById('image-name');
         const pinnedInput = document.getElementById('image-pin');
         
