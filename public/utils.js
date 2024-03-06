@@ -4,6 +4,31 @@ async function fetchData(searchUrl, method, data) {
     else url = BASE_URL + searchUrl;
 
     try {
+        const response = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error('Request failed');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Erreur:', error.message);
+        throw error;
+    }
+}
+
+async function fetchDataFile(searchUrl, method, data) {
+    let url = '';
+    if (searchUrl.includes('http')) url = searchUrl;
+    else url = BASE_URL + searchUrl;
+
+    try {
         const options = {
             method,
             body: data
