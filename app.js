@@ -34,18 +34,18 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
+app.use((req, res, next)=>{
   console.log(req.session);
   next();
-});
+})
 
 app.use("/", viewsRouter);
 app.use("/api", apiRouteur);
 app.use("/public", express.static("public"));
 
-app.use("/", (req, res) => {
-  res.render("projethomepage");
-});
+// app.use("/", (req, res) => {
+//   res.render("projethomepage");
+// });
 
 app.use("*", (req, res) => {
   res

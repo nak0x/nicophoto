@@ -12,7 +12,7 @@ const authRoutes = require("./api/auth.api.routes");
 // Routing
 
 Router.use("/auth", authRoutes);
-Router.use("/albums", /*auth("api", "admin"),*/ albumsRoutes);
+Router.use("/albums", auth("api", "admin"), albumsRoutes);
 Router.use("/album", albumRoutes);
 
 module.exports = Router;

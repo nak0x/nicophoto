@@ -9,7 +9,7 @@ const albumRoutes = require("./pages/album.routes");
 // res.render('index');
 // })
 
-Router.use("/admin", /* auth("render", "admin"), */ adminRoutes);
+Router.use("/admin", auth("render", "admin"), adminRoutes);
 Router.use("/", albumRoutes);
 
 module.exports = Router;

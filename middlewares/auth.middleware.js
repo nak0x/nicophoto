@@ -6,7 +6,10 @@ const {
   validateAdmin,
 } = require("../validators/user.validator.js");
 const tokenController = require("../controllers/tokens.controller.js");
-const { getAdminCredentials } = require("../database/database_utils.js");
+const {
+  getAdminCredentials,
+  getCredentials,
+} = require("../database/database_utils.js");
 const jwt = require("jsonwebtoken");
 
 const renderOptions = {
@@ -45,10 +48,18 @@ function adminAuth(req, res, next) {
   // Check if the admin is already logged in
   if (!req.session.token) return res.render("admin_login", renderOptions);
 
+  console.log(req.session.token);
+
   // Read the token data
-  const tokenData = tokenController.readAdminToken(req.session.token);
-  if (tokenData.err) {
-    console.error(err);
+  const tokenData = tokenController.readAdminToken(
+    req.session.token.split(" ")[1]
+  );
+
+  console.log(tokenData);
+
+  if (tokenData.error) {
+    console.error(tokenData.error);
+    req.session.token = undefined;
     return res.render("admin_login", renderOptions);
   }
 
@@ -73,9 +84,12 @@ function albumAuth(req, res, next) {
   if (!req.session.token) return res.render("album_login", renderOptions);
 
   // Read the token data
-  const tokenData = tokenController.readAccessToken(req.session.token);
-  if (tokenData.err) {
-    console.error(err);
+  const tokenData = tokenController.readAccessToken(
+    req.session.token.split(" ")[1]
+  );
+  if (tokenData.error) {
+    console.error(tokenData.error);
+    req.session.token = undefined;
     return res.render("album_login", renderOptions);
   }
 

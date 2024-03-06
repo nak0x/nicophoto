@@ -118,6 +118,17 @@ exports.fuzzyFindEntityByUniqueId = async (id) => {
       });
     });
 
+    if(!data.album){
+      data.album = await new Promise((res, rej) => {
+        db.all("SELECT * FROM album WHERE  url = ?", [id], (err, rows) => {
+          if (err) {
+            rej(err);
+          }
+          res(rows[0]);
+        });
+      });
+    }
+
     return data;
   } catch (err) {
     console.error(err);
