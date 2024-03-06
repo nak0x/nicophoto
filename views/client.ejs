@@ -18,29 +18,38 @@ Description
 
 <div class="flex flex-col items-center">
     <div class="w-full md:w-8/12">
-        <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mt-8 mb-4"><%= TitleAlbum %></h1>
-        <p class="text-sm md:text-base text-slate-700 my-2"><%= Date %></p>
-        <p class="text-base md:text-lg text-slate-700 my-2"><%= Description %></p>
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-100 mt-8 mb-4"><%= TitleAlbum %></h1>
+        <p class="text-sm md:text-base  my-2 text-slate-100"><%= Date %></p>
+        <p class="text-base md:text-lg  my-2 text-slate-100"><%= Description %></p>
     </div>
 </div>
+<h2 class="text-slate-100 text-4xl">Favoris</h2>
 
-<div class="" id="photo-grid">
-    <% tableau.forEach((image, index) => { %>
-        <div class="h-fit overflow-hidden rounded-lg relative grid-item w-1/5">
-          <img src="<%= image.url %>" class="modal-trigger modalImage h-auto w-full rounded-lg cursor-pointer hover:scale-110 transition-transform duration-500 block" alt="Image loaded from API" loading="lazy" data-index="<%= index %>">
-          <div class="absolute top-0 right-0 p-2">
-            <a href="" id="add-fav-image-<%= index %>" class="add-fav-image">
-              <svg class="favorite-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.492 4.492 0 00-6.364 0z"></path>
-              </svg>
-            </a>
-          </div>
-          <div class="absolute bottom-0 right-0 p-2">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 cursor-pointer" id="select-image-<%= index %>">
-            <label for="select-image-<%= index %>" class="ml-2 text-white z-1"></label>
-          </div>
-        </div>
-      <% }); %>
+<div class="masonry-container flex justify-center items-center" id="favoritesContainer">
+
+</div>
+
+<h2 class="text-slate-100 text-4xl">Séparation</h2>
+<div class="masonry-container flex justify-center items-center">
+    <div class="masonry-grigri " id="" >
+        <% tableau.forEach((image, index) => { %>
+            <div class="overflow-hidden rounded-lg grid-item justify-center items-center h-auto ">
+              <img src="<%= image.url %>" data-url="<%= image.url %>" class="modal-trigger modalImage h-full w-full
+              rounded-lg cursor-pointer hover:scale-110 transition-transform duration-500 block" alt="Image loaded from API" loading="lazy" data-index="<%= image.index %>">
+              <div class="absolute top-0 right-0 p-2">
+                <a href="#" a href="#" onclick="toggleFavorite(<%= image.index %>)" id="add-fav-image-<%= image.index %>" class="add-fav-image">
+                  <svg class="favorite-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.492 4.492 0 00-6.364 0z"></path>
+                  </svg>
+                </a>
+              </div>
+              <div class="absolute bottom-0 right-0 p-2">
+                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 cursor-pointer" id="select-image-<%= image.index %>">
+                <label for="select-image-<%= image.index %>" class="ml-2 text-white z-1"></label>
+              </div>
+            </div>
+          <% }); %>
+    </div>
 </div>
 
 
@@ -100,6 +109,7 @@ Description
 <script src="./public/utils.js">
 
 </script>
+<script src="./public/script/imagesloaded.pkgd.min.js"></script>
 <script src="./public/script/fetchimagesclient.js"></script>
 <script src="./public/script/client.js"></script>
 <script src="./public/script/masonry.pkgd.min.js"></script>
