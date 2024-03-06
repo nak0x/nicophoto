@@ -1,7 +1,13 @@
-const AlbumRouter = require('express').Router();
+const AlbumRouter = require("express").Router();
 
-AlbumRouter.get("/", (req,res)=>{
-  // Render unique album
-})
+// Middlewares
+const { auth } = require("../../middlewares/auth.middleware");
+
+// Controllers
+const {
+  renderAlbumPageByAlbumURL,
+} = require("../../controllers/album.controller");
+
+AlbumRouter.get("/:albumURL", /*auth("render"),*/ renderAlbumPageByAlbumURL);
 
 module.exports = AlbumRouter;
