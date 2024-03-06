@@ -92,6 +92,40 @@ Description
         </div>
     </div>
 
+    
+    <!-- FORM-->
+    <form class="space-y-4" id="CreateAlbumForm">
+        <div>
+          <label for="folder-title"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titre</label>
+          <input type="text" name="folder-title" id="folder-title"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            placeholder="Enter title" required>
+        </div>
+        <div>
+          <label for="folder-description"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+          <textarea name="folder-description" id="folder-description" rows="4"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg max-w-screen focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white min-h-11 max-h-32"
+            placeholder="Enter description" required></textarea>
+        </div>
+        <div>
+          <label for="folder-date"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+          <input type="date" name="folder-date" id="folder-date"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            required>
+        </div>
+        <div>
+          <label for="folder-password" 
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+          <input type="password" name="folder-password" id="folder-password" 
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Enter password" required>
+        </div>
+        <button type="submit"
+          class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          Crée Album</button>
+      </form>
 
 </div>
 
