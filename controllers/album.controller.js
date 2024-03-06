@@ -8,6 +8,8 @@ const {
   albumSchemaPatch,
 } = require("../validators/album.validator");
 
+const { getImageUIDsByAlbumUID } = require("./images.controller");
+
 exports.createAlbum = async (req, res, next) => {
   const body = req.body;
 
@@ -55,23 +57,17 @@ exports.createAlbum = async (req, res, next) => {
       data: {},
     });
   } catch (error) {
-    res.send({
+    res.status(400).send({
       success: false,
-      error: { code: 400, message: error },
+      error: { code: 400, message: JSON.stringify(error.message) },
     });
   }
 };
 
-exports.getAlbum = async (req, res, next) => {
+exports.getAlbum = async (albumUID) => {
   try {
-    req.user = {};
-    req.user.admin = true;
-    const selectValues = req.user.admin
-      ? "*"
-      : "uid, title, description, date, url";
-
-    const query = `SELECT ${selectValues} FROM album WHERE uid = ?`;
-    const params = [req.params.album_uid];
+    const query = `SELECT * FROM album WHERE uid = ?`;
+    const params = [albumUID];
 
     const rows = await new Promise((resolve, reject) => {
       Database.get(query, params, (err, rows) => {
@@ -86,17 +82,19 @@ exports.getAlbum = async (req, res, next) => {
       throw new Error("No album found");
     }
 
-    res.send({
+    return {
       success: true,
       data: rows,
-    });
+    };
   } catch (error) {
-    res.send({
+    return {
       success: false,
       error: { code: 400, message: error },
-    });
+    };
   }
 };
+
+// TODO : getAlbum for API
 
 exports.updateAlbum = async (req, res, next) => {
   const body = req.body;
@@ -166,9 +164,8 @@ exports.deleteAlbum = async (req, res, next) => {
   }
 };
 
-exports.getAlbumByURL = async (req, res) => {
+exports.getAlbumInfosByURL = async (slug) => {
   try {
-    const slug = req.params.album_slug;
     const query = `SELECT * FROM album WHERE url = ?`;
     const params = [slug];
     const row = await new Promise((resolve, reject) => {
@@ -179,34 +176,50 @@ exports.getAlbumByURL = async (req, res) => {
         resolve(row);
       });
     });
-    // console.log(slug);
-    if (!row) return res.status(404).render('404');
-    
-    const getImagesByAlbumIdQuery = `SELECT uid FROM image WHERE album_uid = ?`;
-    const getImagesByAlbumIdParam = [row.uid];
-    const imageUids = await new Promise((resolve, reject) => {
-      Database.all(
-        getImagesByAlbumIdQuery,
-        getImagesByAlbumIdParam,
-        (err, images) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(images);
-        }
-      );
-    });
-    console.log(imageUids);
 
-    res.render("album", {
-      albumInfo: row,
-      imageUids: imageUids.map((row) => row.uid),
-    });
+    if (!row) throw new Error("No album found");
+
+    return {
+      success: true,
+      data: row,
+    };
   } catch (error) {
-    return res.status(404).render('404');
+    return {
+      success: false,
+    };
   }
 };
 
-exports.getAlbumUidFromSlug = async(req,res) => {
+exports.renderAlbumPageByAlbumURL = async (req, res, next) => {
+  const albumInfos = await this.getAlbumInfosByURL(req.params.albumURL);
+  if (!albumInfos.success) {
+    return next();
+  }
 
-}
+  const imageUIDs = await getImageUIDsByAlbumUID(albumInfos.data.uid);
+  if (!imageUIDs.success) {
+    return next();
+  }
+
+  res.render("client", {
+    albumInfos: albumInfos.data,
+    imageUIDs: imageUIDs.data,
+  });
+};
+
+exports.renderAlbumPage = async (req, res, next) => {
+  const albumInfos = await this.getAlbum(req.params.albumUID);
+  if (!albumInfos.success) {
+    return next();
+  }
+
+  const imageUIDs = await getImageUIDsByAlbumUID(req.params.albumUID);
+  if (!imageUIDs.success) {
+    return next();
+  }
+
+  res.render("album", {
+    albumInfos: albumInfos.data,
+    imageUIDs: imageUIDs.data,
+  });
+};
