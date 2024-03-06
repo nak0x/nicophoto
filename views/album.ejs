@@ -9,7 +9,7 @@ for each image on line ~~40
 
 <header class="bg-white shadow flex justify-between items-center">
 <div class="max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-  <h1 class="text-3xl font-bold tracking-tight text-gray-900"><%- albumInfo.title -%></h1>
+  <h1 class="text-3xl font-bold tracking-tight text-gray-900"><%- albumInfos.title -%></h1>
 </div>
 </header>
 
@@ -22,7 +22,7 @@ for each image on line ~~40
                 <div x-data="dataFileDnD()" class="relative flex flex-col p-4 text-gray-400 border border-gray-200 rounded">
                     <div x-ref="dnd"
                         class="relative flex flex-col text-gray-400 border border-gray-200 border-dashed rounded cursor-pointer">
-                        <input accept="*" type="file" multiple
+                        <input accept="image" type="file" id="image"
                             class="absolute inset-0 z-50 w-full h-full p-0 m-0 outline-none opacity-0 cursor-pointer"
                             @change="addFiles($event)"
                             @dragover="$refs.dnd.classList.add('border-blue-400'); $refs.dnd.classList.add('ring-4'); $refs.dnd.classList.add('ring-inset');"
@@ -201,10 +201,25 @@ function dataFileDnD() {
     };
 }
 const form = document.querySelector('form');
+const album_slug = window.location.href.split('/').pop(); 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     try{
-        const formData = new FormData(form);
+        let formData = new FormData();
+        const imageInput = document.getElementById('image'); // Assuming this is your file input element for the image
+        const nameInput = document.getElementById('image-name'); // Assuming this is your input element for the name
+        const pinnedInput = document.getElementById('image-pin');
+        
+
+        console.log(imageInput.files, nameInput.value, pinnedInput.checked);
+
+        formData.append('image', imageInput.files[0]); // Assuming only one image is selected
+        formData.append('name', nameInput.value);
+        formData.append('pinned', pinnedInput.checked ? 1 : 0);
+        for (const entry of formData.entries())
+            {
+                console.log('formdata data', entry);
+            }
         const response = fetchData(`/album/${album_slug}/image`, "POST", formData);
 
         if(!response.ok) throw new Error('Failed to upload file');
@@ -213,8 +228,9 @@ form.addEventListener('submit', async (e) => {
     } catch(error){
         console.error(error);
     }
+});
 
-})
+
 </script>
 
 <!-- <script>

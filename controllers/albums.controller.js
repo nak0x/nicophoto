@@ -1,20 +1,62 @@
 const Database = require("../database/database");
+const { getAlbum } = require("./album.controller");
+const { getRandomImageFromAlbumUID } = require("./image.controller");
 
-exports.getAlbums = async (req, res, next) => {
+const imagePlaceholder =
+  "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";
+
+exports.getAllAlbumUIDs = async () => {
   try {
-    Database.all("SELECT uid FROM album", [], (err, rows) => {
-      if (err) {
-        throw new Error(err);
-      }
-      res.send({
-        success: true,
-        data: rows.map((obj) => obj.uid),
+    const rows = await new Promise((resolve, reject) => {
+      Database.all("SELECT uid FROM album", [], (err, rows) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(rows);
       });
     });
+
+    return {
+      success: true,
+      data: rows.map((row) => row.uid),
+    };
   } catch (error) {
-    res.send({
+    return {
       success: false,
-      error: { code: 500, message: error },
-    });
+      error: { code: 500, message: error.message },
+    };
   }
+};
+
+exports.renderAlbumsPage = async (req, res) => {
+  const albumUIDs = await this.getAllAlbumUIDs();
+
+  if (!albumUIDs.success) {
+    return res.redirect("/");
+  }
+
+  let albums = [];
+  const albumPromises = albumUIDs.data.map(async (albumUID) => {
+    const album = await getAlbum(albumUID);
+    const imgRow = await getRandomImageFromAlbumUID(albumUID);
+    album.data.thumbnail = imgRow ? imgRow.preview : imagePlaceholder;
+    return album.data;
+  });
+
+  const allAlbums = await Promise.all(albumPromises);
+  albums.push(...allAlbums);
+
+  res.render("admin", {
+    albums,
+  });
+};
+
+exports.getAllAlbumUIDsFromAPI = async (req, res) => {
+  const albumUIDs = await this.getAllAlbumUIDs();
+
+  if (!albumUIDs.success) {
+    return res.send(albumUIDs);
+  }
+
+  res.send(albumUIDs);
 };
