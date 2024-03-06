@@ -104,10 +104,15 @@ exports.getImage = async (req, res) => {
       throw new Error("Image not found");
     }
 
-    res.send({
-      success: true,
-      data: row,
-    });
+    if (req.query.url) {
+      res.setHeader("Content-Type", "image/webp");
+      res.send(Buffer.from(row.preview, "base64"));
+    } else {
+      res.send({
+        success: true,
+        data: row,
+      });
+    }
   } catch (error) {
     res.status(404).send({
       success: false,

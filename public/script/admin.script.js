@@ -1,10 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log('hello World');
   const folderButton = document.getElementById("openButton");
   const closeButton = document.getElementById("closeButton");
   const folderModal = document.getElementById("folder-creation-modal");
 
   folderButton.addEventListener("click", function () {
-    folderModal.classList.remove("hidden"); // Affiche le modal de création de dossier
+    folderModal.classList.remove("hidden");
+    console.log('test');
   });
 
   closeButton.addEventListener("click", function () {

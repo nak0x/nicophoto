@@ -201,7 +201,7 @@ exports.renderAlbumPageByAlbumURL = async (req, res, next) => {
     return next();
   }
 
-  res.render("album", {
+  res.render("client", {
     albumInfos: albumInfos.data,
     imageUIDs: imageUIDs.data,
   });

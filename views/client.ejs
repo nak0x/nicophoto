@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./public/style/main.css">
+    <title>Document</title>
+</head>
+<body>
+<!--
+TitleAlbum
+Date
+Description
+
+  -->
+
+<div class="flex flex-col items-center">
+    <div class="w-full md:w-8/12">
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mt-8 mb-4"><%= TitleAlbum %></h1>
+        <p class="text-sm md:text-base text-slate-700 my-2"><%= Date %></p>
+        <p class="text-base md:text-lg text-slate-700 my-2"><%= Description %></p>
+    </div>
+</div>
+
+<div class="" id="photo-grid">
+    <% tableau.forEach((image, index) => { %>
+        <div class="h-fit overflow-hidden rounded-lg relative grid-item w-1/5">
+          <img src="<%= image.url %>" class="modal-trigger modalImage h-auto w-full rounded-lg cursor-pointer hover:scale-110 transition-transform duration-500 block" alt="Image loaded from API" loading="lazy" data-index="<%= index %>">
+          <div class="absolute top-0 right-0 p-2">
+            <a href="" id="add-fav-image-<%= index %>" class="add-fav-image">
+              <svg class="favorite-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.492 4.492 0 00-6.364 0z"></path>
+              </svg>
+            </a>
+          </div>
+          <div class="absolute bottom-0 right-0 p-2">
+            <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 cursor-pointer" id="select-image-<%= index %>">
+            <label for="select-image-<%= index %>" class="ml-2 text-white z-1"></label>
+          </div>
+        </div>
+      <% }); %>
+</div>
+
+
+    <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-transform z-50">
+        
+        <div id="navBarImg" class="absolute top-0 right-0 cursor-pointer p-2 w-full flex gap-8 px-4">
+            <!-- Icône pour fermer le modal -->
+            <div id="closeModal">
+                <svg xmlns="http://www.w3.org/2000/svg" class="cross-close h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+            <!-- Icône pour dl -->
+            <div id="dl-img">
+                <a href="/utils.js" id="dl-image" download="https://www.rustica.fr/images/coucou-gris.jpg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="download-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" />
+                </svg>
+                </a>
+            </div>
+            <!-- Icône pour favoris -->
+            <div id="fav-img">
+                <a href="#" id="add-fav-image">
+                <svg xmlns="http://www.w3.org/2000/svg" class="favorite-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.492 4.492 0 00-6.364 0z" />
+                </svg>
+                </a>
+            </div>
+        </div>
+        <div class="flex justify-center items-center w-3/4 max-h-3/4 relative">
+
+            <!-- Icônes pour naviguer entre les images -->
+
+            <div class="relative">
+                <img id="modalImage" src="" alt="Image en grand" class="">
+                <div id="prevImage" class="absolute left-0 cursor-pointer p-4 select-none py-64 backdrop-filter-container">
+                    <!-- Icône précédente -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="navigation-arrow h-6 w-6 text-white gradient-overlay" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </div>
+                <div id="nextImage" class="absolute right-0 cursor-pointer p-4 select-none py-64">
+                    <!-- Icône suivante -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="navigation-arrow h-6 w-6 text-white drop-shadow-xl" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- FORM-->
+    <form class="space-y-4" id="CreateAlbumForm">
+        <div>
+          <label for="folder-title"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titre</label>
+          <input type="text" name="folder-title" id="folder-title"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            placeholder="Enter title" required>
+        </div>
+        <div>
+          <label for="folder-description"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+          <textarea name="folder-description" id="folder-description" rows="4"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg max-w-screen focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white min-h-11 max-h-32"
+            placeholder="Enter description" required></textarea>
+        </div>
+        <div>
+          <label for="folder-date"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+          <input type="date" name="folder-date" id="folder-date"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            required>
+        </div>
+        <div>
+          <label for="folder-password" 
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+          <input type="password" name="folder-password" id="folder-password" 
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Enter password" required>
+        </div>
+        <button type="submit"
+          class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          Crée Album</button>
+      </form>
+
+</div>
+
+
+
+<script src="./public/utils.js">
+
+</script>
+<script src="./public/script/fetchimagesclient.js"></script>
+<script src="./public/script/client.js"></script>
+<script src="./public/script/masonry.pkgd.min.js"></script>
+<%- include('layout/footer') -%>
