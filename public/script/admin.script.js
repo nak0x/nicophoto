@@ -14,13 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document
   .querySelector("#CreateAlbumForm")
-  .addEventListener("submit", (event) => {
+  .addEventListener("submit", async(event) => {
     event.preventDefault();
  
-  fetchData(`/album`, "POST", {
+  await fetchData(`/album`, "POST", {
     "title": event.target[0].value,
     "description": event.target[1].value,
     "date": event.target[2].value,
     "password": event.target[3].value,
   });
+  window.location.reload();
 });
