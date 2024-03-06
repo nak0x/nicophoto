@@ -6,11 +6,10 @@
 
 image
 nom image
-TitleAlbumCarte
+TitleAlbumCarte = element.title
 DateAlbumCarte
 
 -->
-<%- albumInfo  -%>
 
 <header class="bg-white shadow flex justify-between items-center">
   <div class="max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -26,17 +25,16 @@ DateAlbumCarte
   <main>
     <div class="flex flex-wrap justify-center gap-4 mt-4">
       <!-- Début de la carte -->
-      <% ListAlbum.forEach(element => { %>
-        <div class="relative flex justify-center items-center border-2 border-white rounded-lg overflow-hidden max-w-80 w-full h-48 ">
-          <img src="<%= image %>" alt="<%= nomimage %>" class="w-full h-full object-cover object-center">
+      <% albums.forEach(album => { %>
+        <a class="relative flex justify-center items-center border-2 border-white rounded-lg overflow-hidden max-w-80 w-full h-48 " href="/admin/album/<%= album.uid %>">
+          <img src="data:image/webp;base64,<%= album.thumnail %>" alt="<%= album.title %>" class="w-full h-full object-cover object-center">
           <div class="absolute bottom-0 left-0 right-0 p-3 bg-white bg-opacity-75 backdrop-filter backdrop-blur-lg">
-            <p class="text-lg font-semibold"><%= TitleAlbumCarte %></p>
-            <p class="text-sm opacity-70"><%= DateAlbumCarte %></p>
+            <p class="text-lg font-semibold"><%= album.title %></p>
+            <p class="text-sm opacity-70"><%= ablum.date %></p>
           </div>
-        </div>
+        </a>
       <% }) %>
     </div>
-    
 
     <!-- Folder creation modal -->
     <div id="folder-creation-modal" tabindex="-1" aria-hidden="true" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-transform hidden">
@@ -62,7 +60,9 @@ DateAlbumCarte
         </div>
         <!-- Modal body -->
         <div class="p-4 md:p-5">
-          <form class="space-y-4" action="#">
+
+          <!-- FORM-->
+          <form class="space-y-4" id="CreateAlbumForm">
             <div>
               <label for="folder-title"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titre</label>
@@ -83,6 +83,12 @@ DateAlbumCarte
               <input type="date" name="folder-date" id="folder-date"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required>
+            </div>
+            <div>
+              <label for="folder-password" 
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+              <input type="password" name="folder-password" id="folder-password" 
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Enter password" required>
             </div>
             <button type="submit"
               class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
