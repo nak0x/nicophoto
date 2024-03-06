@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./public/style/main.css">
-    <title>Document</title>
+    <title>Album photo</title>
 
 </head>
-<body>
+<body data-uid="<%= albumInfos.uid %>">
+
 <!--
 TitleAlbum
 Date
@@ -25,33 +26,13 @@ Description
     </div>
 </div>
 <h2 class="text-slate-100 text-4xl">Favoris</h2>
-<%= imageUIDs %>
-<div class="display-favorite" style="width: 1980px; height: 400px;">
+<div class="display-favorite" style="width: 1440px; height: 400px;">
 
 </div>
 
 <h2 class="text-slate-100 text-4xl">Séparation</h2>
-<div class="masonry-container flex justify-center items-center">
-    <div class="masonry-grigri " id="" >
-        <% imageUIDs.forEach((imageUID) => { %>
-            <div class="overflow-hidden rounded-lg grid-item justify-center items-center h-auto ">
-              <img src="/api/album/<%= albumInfos.uid %>/image/<%= imageUID %>?url" data-url="/api/album/<%= albumInfos.uid %>/image/<%= imageUID %>?url" class="modal-trigger modalImage h-full w-full
-              rounded-lg cursor-pointer hover:scale-110 transition-transform duration-500 block" alt="Image loaded from API" loading="lazy" data-index="<%= imageUID %>">
-              <div class="absolute top-0 right-0 p-2">
-                <a href="#" a href="#" onclick="toggleFavorite(<%= imageUID %>)" id="add-fav-image-<%= imageUID %>" class="add-fav-image">
-                  <svg class="favorite-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.492 4.492 0 00-6.364 0z"></path>
-                  </svg>
-                </a>
-              </div>
-              <div class="absolute bottom-0 right-0 p-2">
-                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 cursor-pointer" id="select-image-<%= imageUID %>">
-                <label for="select-image-<%= imageUID %>" class="ml-2 text-white z-1"></label>
-              </div>
-            </div>
-          <% }); %>
-    </div>
-</div>
+
+    <%- include('components/masonry') -%>
 
 
     <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-transform z-50">
@@ -65,11 +46,11 @@ Description
             </div>
             <!-- Icône pour dl -->
             <div id="dl-img">
-                <a href="/utils.js" id="dl-image" download="https://www.rustica.fr/images/coucou-gris.jpg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="download-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" />
-                </svg>
-                </a>
+                <button id="dl-image">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="download-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" />
+                    </svg>
+                </button>
             </div>
             <!-- Icône pour favoris -->
             <div id="fav-img">
@@ -114,4 +95,5 @@ Description
 <script src="./public/script/fetchimagesclient.js"></script>
 <script src="./public/script/client.js"></script>
 <script src="./public/script/masonry.pkgd.min.js"></script>
+
 <%- include('layout/footer') -%>

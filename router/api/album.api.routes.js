@@ -20,7 +20,7 @@ AlbumRouter.route("/:album_uid")
 
 AlbumRouter.use("/:album_uid/image", imageRoutes);
 
-AlbumRouter.use("/:album_uid/images/download", imagesController.downloadImages);
+AlbumRouter.route("/:album_uid/images/download").post(imagesController.downloadImages);
 
 // AlbumRouter.use("/:album_uid/images", imagesController.getAllAlbumImages);
 

@@ -203,16 +203,7 @@ exports.renderAlbumPageByAlbumURL = async (req, res, next) => {
 
   res.render("client", {
     albumInfos: albumInfos.data,
-    imageUIDs: [
-      "55baf720-d315-464c-8129-4ef5e4e39eff",
-      "63f87ebe-70eb-4c1c-b239-420890a63ce2",
-      "6558e9f2-d05e-42f5-8eaf-a72281897368",
-      "65c26371-3afc-410b-a119-8279d7e2e9cf",
-      "6efc923f-39a3-4159-8ed9-f49d19dc178d",
-      "7e695872-59fa-436e-be0e-09bffc71556b",
-      "914a6371-f957-4028-89de-87956d6bae8a",
-      "e6fc6209-13a3-4e93-8321-d0b0067c992a"
-  ],
+    imageUIDs: imageUIDs.data
   });
 };
 

@@ -1,0 +1,21 @@
+<div class="masonry-container flex justify-center items-center">
+    <div class="masonry-grigri " id="" >
+        <% imageUIDs.forEach((imageUID, index) => { %>
+            <div class="overflow-hidden rounded-lg grid-item justify-center items-center h-auto ">
+              <img src="/api/album/<%= albumInfos.uid %>/image/<%= imageUID %>?url=1" data-url="/api/album/<%= albumInfos.uid %>/image/<%= imageUID %>?url=1" data-uid="<%= imageUID %>" class="modal-trigger modalImage h-full w-full
+              rounded-lg cursor-pointer hover:scale-110 transition-transform duration-500 block" alt="Image loaded from API" loading="lazy" data-index="<%= index %>">
+              <div class="absolute top-0 right-0 p-2">
+                <a href="#" a href="#" onclick="toggleFavorite('<%= imageUID %>')" id="add-fav-image-<%= imageUID %>" class="add-fav-image">
+                  <svg class="favorite-icon h-6 w-6 text-white hover:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.492 4.492 0 00-6.364 0z"></path>
+                  </svg>
+                </a>
+              </div>
+              <div class="absolute bottom-0 right-0 p-2">
+                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 cursor-pointer" id="select-image-<%= imageUID %>">
+                <label for="select-image-<%= imageUID %>" class="ml-2 text-white z-1"></label>
+              </div>
+            </div>
+          <% }); %>
+    </div>
+</div>

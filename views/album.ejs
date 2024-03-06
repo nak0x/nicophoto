@@ -120,11 +120,12 @@ for each image on line ~~40
 
 
  
-<!-- add components image here -->
+<%- include('components/masonry') -%>
 
 
+<script src="./public/script/masonry.pkgd.min.js"></script>
 
-<%- include('layout/footer') -%>
+
 
 
 
@@ -220,3 +221,5 @@ form.addEventListener('submit', async (e) => {
 
 
 </script>
+
+<%- include('layout/footer') -%>
