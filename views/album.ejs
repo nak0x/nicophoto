@@ -14,10 +14,9 @@ for each image on line ~~40
 </header>
 
 <main>
-    <form action="post" method="post" class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+    <form method="post" class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8" enctype="multipart/form-data">
         <div class="col-span-full">
             <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover photo</label>
-            <form method="post">
             <div class="bg-white p7 rounded w-9/12 mx-auto">
                 <div x-data="dataFileDnD()" class="relative flex flex-col p-4 text-gray-400 border border-gray-200 rounded">
                     <div x-ref="dnd"
