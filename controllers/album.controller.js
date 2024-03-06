@@ -57,17 +57,17 @@ exports.createAlbum = async (req, res, next) => {
       data: {},
     });
   } catch (error) {
-    res.send({
+    res.status(400).send({
       success: false,
-      error: { code: 400, message: error },
+      error: { code: 400, message: JSON.stringify(error.message) },
     });
   }
 };
 
-exports.getAlbum = async (req, res, next) => {
+exports.getAlbum = async (albumUID) => {
   try {
     const query = `SELECT * FROM album WHERE uid = ?`;
-    const params = [req.params.album_uid];
+    const params = [albumUID];
 
     const rows = await new Promise((resolve, reject) => {
       Database.get(query, params, (err, rows) => {
@@ -82,17 +82,19 @@ exports.getAlbum = async (req, res, next) => {
       throw new Error("No album found");
     }
 
-    res.send({
+    return {
       success: true,
       data: rows,
-    });
+    };
   } catch (error) {
-    res.send({
+    return {
       success: false,
       error: { code: 400, message: error },
-    });
+    };
   }
 };
+
+// TODO : getAlbum for API
 
 exports.updateAlbum = async (req, res, next) => {
   const body = req.body;
@@ -205,6 +207,19 @@ exports.renderAlbumPageByAlbumURL = async (req, res, next) => {
   });
 };
 
-exports.getAlbumUidFromSlug = async(req,res) => {
+exports.renderAlbumPage = async (req, res, next) => {
+  const albumInfos = await this.getAlbum(req.params.albumUID);
+  if (!albumInfos.success) {
+    return next();
+  }
 
-}
+  const imageUIDs = await getImageUIDsByAlbumUID(req.params.albumUID);
+  if (!imageUIDs.success) {
+    return next();
+  }
+
+  res.render("temp", {
+    albumInfos: albumInfos.data,
+    imageUIDs: imageUIDs.data,
+  });
+};

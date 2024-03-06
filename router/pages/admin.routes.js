@@ -1,4 +1,5 @@
 const { renderAlbumsPage } = require("../../controllers/albums.controller");
+const { renderAlbumPage } = require("../../controllers/album.controller");
 
 const Router = require("express").Router();
 
@@ -6,10 +7,11 @@ const Router = require("express").Router();
 //   // res.render("admin_login");
 // });
 
+Router.get("/album/:albumUID", renderAlbumPage);
 Router.get("/", renderAlbumsPage);
 
-Router.get("/create-album", (req, res) =>{
-  res.render("album")
-} );
+// Router.get("/create-album", (req, res) =>{
+//   res.render("album")
+// } );
 
 module.exports = Router;

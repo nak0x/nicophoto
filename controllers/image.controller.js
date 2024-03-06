@@ -112,6 +112,21 @@ exports.getImage = async (req, res) => {
   }
 };
 
+exports.getRandomImageFromAlbumUID = (albumUID) => {
+  return new Promise((resolve, reject) => {
+    const query =
+      "SELECT preview FROM image WHERE album_uid = ? ORDER BY RANDOM()";
+    const params = [albumUID];
+
+    Database.get(query, params, (err, row) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(row);
+    });
+  });
+};
+
 exports.updateImage = async (req, res) => {
   try {
     const body = req.body;
