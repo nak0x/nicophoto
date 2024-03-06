@@ -208,7 +208,7 @@ form.addEventListener('submit', async (e) => {
         formData.append('image', imageInput.files[0]);
         formData.append('name', nameInput.value);
         formData.append('pinned', pinnedInput.checked ? 1 : 0);
-        const response = await fetchData(`/album/${album_slug}/image`, "POST", formData);
+        const response = await fetchDataFile(`/album/${album_slug}/image`, "POST", formData);
 
         if(!response.success) throw new Error('Failed to upload file');
 
